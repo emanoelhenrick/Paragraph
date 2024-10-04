@@ -7,9 +7,9 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Menu } from "./pages/Home/components/Menu";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <RouterProvider router={router} />
     </ThemeProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

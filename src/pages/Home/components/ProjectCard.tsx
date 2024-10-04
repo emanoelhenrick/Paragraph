@@ -6,16 +6,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { format, formatDistance } from 'date-fns'
+import { formatDistance } from 'date-fns'
 
 interface ProjectCardProps {
   title: string
   type: string
   description: string,
-  updatedAt: string
+  updatedAt: Date
 }
 
 export function ProjectCard({ title, type, description, updatedAt }: ProjectCardProps) {
+  console.log(title);
+  
   return (
     <Card className="hover:bg-secondary/30 cursor-pointer transition-colors">
       <CardHeader>

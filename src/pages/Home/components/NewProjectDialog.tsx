@@ -2,6 +2,7 @@
 
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -23,6 +24,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { createProjectFile } from "@/core/files/createProjectFile"
 
 const formSchema = z.object({
   title: z.string().min(2).max(50),
@@ -30,16 +32,15 @@ const formSchema = z.object({
   type: z.string().min(2).max(50)
 })
 
-export function NewProjectDialog() {
+export function NewProjectDialog({ updateLocalProjects }: { updateLocalProjects: () => void }) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    await createProjectFile(values)
+    updateLocalProjects()
   }
 
   return (
@@ -106,7 +107,9 @@ export function NewProjectDialog() {
                 </FormItem>
               )}
             />
-            <Button type="submit">Create</Button>
+            <DialogClose asChild>
+              <Button type="submit">Create</Button>
+            </DialogClose>
           </form>
         </Form>
       </DialogContent>

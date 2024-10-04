@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button"
-import { PlusIcon } from "@radix-ui/react-icons"
 import { ProjectCard } from "./components/ProjectCard"
 import {
   Select,
@@ -11,61 +9,37 @@ import {
 import { useEffect, useState } from "react"
 import { NewProjectDialog } from "./components/NewProjectDialog"
 import { ModeToggle } from "@/components/ui/mode-toggle"
+import { getAllProjects } from "@/core/files/getAllProjects"
 
-
-const allProjects = [
-  {
-    type: 'book',
-    title: 'Lord of the rings',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia labore aliquid dolorem ratione molestiae consequuntur cumque, animi magni cum quos amet perspiciatis, maiores, maxime voluptatem recusandae est. Ducimus, accusamus ipsum.',
-    updatedAt: new Date(2024, 9, 27) as any
-  },
-  {
-    type: 'script',
-    title: 'Dune - Part 2',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia labore aliquid dolorem ratione molestiae consequuntur cumque, animi magni cum quos amet perspiciatis, maiores, maxime voluptatem recusandae est. Ducimus, accusamus ipsum.',
-    updatedAt: new Date(2024, 9, 16) as any
-  },
-  {
-    type: 'book',
-    title: 'American Gods',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia labore aliquid dolorem ratione molestiae consequuntur cumque, animi magni cum quos amet perspiciatis, maiores, maxime voluptatem recusandae est. Ducimus, accusamus ipsum.',
-    updatedAt: new Date(2024, 10, 2) as any
-  },
-  {
-    type: 'script',
-    title: 'The Witch',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia labore aliquid dolorem ratione molestiae consequuntur cumque, animi magni cum quos amet perspiciatis, maiores, maxime voluptatem recusandae est. Ducimus, accusamus ipsum.',
-    updatedAt: new Date(2024, 9, 28) as any
-  },
-  {
-    type: 'book',
-    title: 'Flowers to Algernon',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia labore aliquid dolorem ratione molestiae consequuntur cumque, animi magni cum quos amet perspiciatis, maiores, maxime voluptatem recusandae est. Ducimus, accusamus ipsum.',
-    updatedAt: new Date(2024, 9, 27) as any
-  },
-  {
-    type: 'note',
-    title: 'Thoughts',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia labore aliquid dolorem ratione molestiae consequuntur cumque, animi magni cum quos amet perspiciatis, maiores, maxime voluptatem recusandae est. Ducimus, accusamus ipsum.',
-    updatedAt: new Date(2024, 9, 4) as any
-  }
-]
-
-allProjects.sort((a, b) => {
-  return a.updatedAt - b.updatedAt;
-});
+interface ContentProps {
+  type: string,
+  title: string,
+  description: string,
+  updatedAt: Date
+}
 
 export function Home() {
-
   const [category, setCategory] = useState('all')
-  const [projects, setProjects] = useState(allProjects)
+  const [allProjects, setAllProjects] = useState<ContentProps[]>([])
+  const [projects, setProjects] = useState<ContentProps[]>([])
+
+  async function updateLocalProjects() {
+    const p = await getAllProjects()
+    if (p) setAllProjects(p)
+  }
 
   useEffect(() => {
-    if (category == 'all') return setProjects(allProjects)
-    setProjects(allProjects.filter(p => p.type == category))
-  }, [category])
+    updateLocalProjects()
+  }, [])
 
+  useEffect(() => {
+    console.log('rodou useEffect 2')
+    if (category == 'all') {
+      setProjects(allProjects)
+    } else {
+      setProjects(allProjects.filter(p => p.type == category))
+    }
+  }, [category, allProjects])
 
   return (
     <div className="max-w-screen-xl p-10 m-auto h-screen flex-1 justify-center">
@@ -85,12 +59,12 @@ export function Home() {
             </SelectContent>
           </Select>
         </div>
-        <NewProjectDialog />
+        <NewProjectDialog updateLocalProjects={updateLocalProjects} />
       </div>
 
-      {projects.length > 0 ? 
+      {allProjects ? 
         <div className="grid grid-cols-3 gap-6">
-          {projects.map(p =>  (<ProjectCard title={p.title} type={p.type} description={p.description} updatedAt={p.updatedAt} key={p.title} />))}
+          {projects.map(p => <ProjectCard title={p.title} type={p.type} description={p.description} updatedAt={p.updatedAt} key={p.title} />)}
         </div>
        : <p className="opacity-80">You don't have any project with this type</p>}
 
