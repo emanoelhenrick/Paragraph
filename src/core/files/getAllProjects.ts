@@ -11,10 +11,11 @@ export async function getAllProjects() {
   const projects: ContentProps[] = []
   try {
     const entries = await readDir('projects', { baseDir: BaseDirectory.AppLocalData });
-    entries.forEach(async (e) => {
-      const metadata = JSON.parse(await readTextFile(`projects/${e.name}/meta.json`, { baseDir: BaseDirectory.AppLocalData }))
+     for (const e of entries) {
+      const rawJson = await readTextFile(`projects/${e.name}/meta.json`, { baseDir: BaseDirectory.AppLocalData })
+      const metadata = JSON.parse(rawJson)
       projects.push(metadata)
-    })
+     }
     return projects
   } catch (error) {
     console.log(error);

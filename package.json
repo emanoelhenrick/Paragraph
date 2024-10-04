@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "tauri:build": "tauri build",
+    "tauri:icons": "tauri icon ./logo.png"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

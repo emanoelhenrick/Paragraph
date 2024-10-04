@@ -33,7 +33,6 @@ export function Home() {
   }, [])
 
   useEffect(() => {
-    console.log('rodou useEffect 2')
     if (category == 'all') {
       setProjects(allProjects)
     } else {
@@ -62,7 +61,7 @@ export function Home() {
         <NewProjectDialog updateLocalProjects={updateLocalProjects} />
       </div>
 
-      {allProjects ? 
+      {allProjects.length > 0 ? 
         <div className="grid grid-cols-3 gap-6">
           {projects.map(p => <ProjectCard title={p.title} type={p.type} description={p.description} updatedAt={p.updatedAt} key={p.title} />)}
         </div>

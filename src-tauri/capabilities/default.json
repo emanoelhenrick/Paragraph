@@ -7,6 +7,9 @@
   ],
   "permissions": [
     "core:default",
+    "core:window:allow-start-dragging",
+    "core:window:allow-center",
+    "core:window:allow-is-resizable",
     "shell:allow-open",
     "fs:write-all",
     "fs:write-files",
