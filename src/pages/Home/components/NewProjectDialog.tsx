@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { createProjectFile } from "@/core/files/createProjectFile"
+// import { createProjectFile } from "electron/files/createProjectFile"
 
 const formSchema = z.object({
   title: z.string().min(2).max(50),
@@ -38,14 +38,14 @@ export function NewProjectDialog({ updateLocalProjects }: { updateLocalProjects:
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await createProjectFile(values)
-    updateLocalProjects()
+    // await createProjectFile(values)
+    // updateLocalProjects()
   }
 
   return (
     <Dialog>
       <DialogTrigger>
-        <PlusIcon />
+        <PlusIcon width={20} height={20} />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

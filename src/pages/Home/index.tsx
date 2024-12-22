@@ -6,31 +6,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/pages/Home/components/CategoriesFilter"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { NewProjectDialog } from "./components/NewProjectDialog"
 import { ModeToggle } from "@/components/ui/mode-toggle"
-import { getAllProjects } from "@/core/files/getAllProjects"
+import { useMeasure } from "@uidotdev/usehooks";
+import { allProjectsFake } from "./populate"
 
 interface ContentProps {
+  id: any
   type: string,
   title: string,
   description: string,
   updatedAt: Date
 }
 
-export function Home() {
+export default function Home() {
+  const [ref, { width }] = useMeasure();
+
   const [category, setCategory] = useState('all')
-  const [allProjects, setAllProjects] = useState<ContentProps[]>([])
+  const [allProjects, setAllProjects] = useState<ContentProps[]>(allProjectsFake)
   const [projects, setProjects] = useState<ContentProps[]>([])
+  
+  
 
-  async function updateLocalProjects() {
-    const p = await getAllProjects()
-    if (p) setAllProjects(p)
-  }
+  // async function updateLocalProjects() {
+  //   const p = allProje
+  //   if (p) setAllProjects(p)
+  // }
 
-  useEffect(() => {
-    updateLocalProjects()
-  }, [])
+  // useEffect(() => {
+  //   updateLocalProjects()
+  // }, [])
 
   useEffect(() => {
     if (category == 'all') {
@@ -40,30 +46,27 @@ export function Home() {
     }
   }, [category, allProjects])
 
+  const columns = useMemo(() => {
+    if (!width) return 3
+    if (Math.floor(width / 400) > 12) return 12
+    return Math.floor(width / 400) 
+  }, [width])
+
+  console.log(columns);
+  
   return (
-    <div className="max-w-screen-xl p-10 m-auto h-screen flex-1 justify-center">
+    <div ref={ref} className="w-full px-10 py-8 h-screen justify-center">
 
       <div className="flex justify-between items-center mb-4">
         <div className="flex gap-2">
           <p className="text-2xl antialiased font-bold">Recentes</p>
-          <Select onValueChange={(e => setCategory(e))}>
-            <SelectTrigger className="w-fit">
-              <SelectValue placeholder="Category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              <SelectItem value="book">Books</SelectItem>
-              <SelectItem value="script">Scripts</SelectItem>
-              <SelectItem value="note">Notes</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
-        <NewProjectDialog updateLocalProjects={updateLocalProjects} />
+        <NewProjectDialog />
       </div>
 
       {allProjects.length > 0 ? 
-        <div className="grid grid-cols-3 gap-6">
-          {projects.map(p => <ProjectCard title={p.title} type={p.type} description={p.description} updatedAt={p.updatedAt} key={p.title} />)}
+        <div style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }} className={`grid gap-4`}>
+          {projects.map(p => <ProjectCard id={p.id} title={p.title} type={p.type} description={p.description} updatedAt={p.updatedAt} key={p.title} />)}
         </div>
        : <p className="opacity-80">You don't have any project with this type</p>}
 
