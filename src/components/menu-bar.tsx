@@ -9,8 +9,8 @@ export function MenuBar() {
   }
 
   return (
-    <div className="w-full flex justify-center bottom-2 fixed z-50 ">
-      <div className="flex px-8 py-4 bg-primary-foreground rounded-3xl bottom-4 justify-between w-fit border">
+    <div className="w-full flex justify-center bottom-2 fixed z-50 group">
+      <div className="flex p-4 bg-primary-foreground rounded-xl bottom-4 justify-between w-fit border group-hover:opacity-100 opacity-100 transition">
         <div className="flex gap-8">
           <Book size={22} strokeWidth={'1.5px'} className="text-muted-foreground hover:opacity-80 cursor-pointer" />
           <UserPen size={22} strokeWidth={'1.5px'} className="text-muted-foreground hover:opacity-80 cursor-pointer" />

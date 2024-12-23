@@ -54,10 +54,59 @@ export default {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
+  			},
+  			brand: {
+  				DEFAULT: 'hsl(var(--brand))',
+  				foreground: 'hsl(var(--brand-foreground))'
+  			},
+  			highlight: {
+  				DEFAULT: 'hsl(var(--highlight))',
+  				foreground: 'hsl(var(--highlight-foreground))'
+  			}
+  		},
+  		fontFamily: {
+  			heading: [
+  				'var(--font-heading)',
+  				'ui-sans-serif',
+  				'-apple-system',
+  				'BlinkMacSystemFont',
+  				'Segoe UI Variable Display',
+  				'Segoe UI',
+  				'Helvetica',
+  				'Apple Color Emoji',
+  				'Arial',
+  				'sans-serif',
+  				'Segoe UI Emoji',
+  				'Segoe UI Symbol',
+  				'Noto Color Emoji'
+  			],
+  			mono: [
+  				'var(--font-mono)',
+  				...require("tailwindcss/defaultTheme").fontFamily.mono
+  			],
+  			sans: [
+  				'var(--font-sans)',
+  				'ui-sans-serif',
+  				'-apple-system',
+  				'BlinkMacSystemFont',
+  				'Segoe UI Variable Display',
+  				'Segoe UI',
+  				'Helvetica',
+  				'Apple Color Emoji',
+  				'Arial',
+  				'sans-serif',
+  				'Segoe UI Emoji',
+  				'Segoe UI Symbol',
+  				'Noto Color Emoji'
+  			]
+  		},
+  		screens: {
+  			'main-hover': {
+  				raw: '(hover: hover)'
   			}
   		}
   	}
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [tailwindcssAnimate, require("tailwindcss-animate"), require("tailwind-scrollbar-hide")],
 }
 

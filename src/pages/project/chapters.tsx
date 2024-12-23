@@ -1,7 +1,7 @@
 import { PlusIcon } from "@radix-ui/react-icons"
 import { useMeasure } from "@uidotdev/usehooks"
 import { useMemo } from "react"
-import { useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { Fade } from 'react-awesome-reveal'
 
 const caps = {
@@ -11,7 +11,8 @@ const caps = {
 
 
 export function Chapters() {
-  let [searchParams] = useSearchParams()
+  const navigate = useNavigate()
+
   const [ref, { width }] = useMeasure();
 
   const columns = useMemo(() => {
@@ -19,6 +20,10 @@ export function Chapters() {
       if (Math.floor(width / 400) > 12) return 12
       return Math.floor(width / 400) 
     }, [width])
+
+  function handleEditor(id: string) {
+    navigate(`/project/editor/${id}`)
+  }
   
   return (
     <div style={{ fontFamily: 'sora'}} ref={ref} className="p-8 w-full flex justify-center">
@@ -32,7 +37,7 @@ export function Chapters() {
           <Fade triggerOnce duration={300}>
           {Array.from({ length: 10 }).map((c, index) => {
               return (
-                <div className="p-8 bg-secondary rounded-xl hover:opacity-80">
+                <div onClick={() => handleEditor(index.toString())} className="p-8 bg-secondary rounded-xl hover:opacity-80">
                   <h1 className="text-xl capitalize">Chapter {index}</h1>
                   <span className="text-sm text-muted-foreground line-clamp-3">{caps.desc}</span>
                 </div>

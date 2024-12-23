@@ -45,8 +45,6 @@ export default function Home() {
     return Math.floor(width / 300) 
   }, [width])
 
-  console.log(columns);
-  
   return (
     <div ref={ref} className="w-full px-10 py-8 h-screen justify-center">
 
@@ -54,11 +52,11 @@ export default function Home() {
         <div className="flex gap-2">
           <p className="text-2xl antialiased font-bold">Recentes</p>
         </div>
-        <NewProjectDialog />
+        {/* <NewProjectDialog /> */}
       </div>
 
       {allProjects.length > 0 ? 
-        <div style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }} className={`grid gap-4`}>
+        <div style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`, fontFamily: 'sora' }} className={`grid gap-4`}>
           {projects.map(p => <ProjectCard id={p.id} title={p.title} type={p.type} description={p.description} updatedAt={p.updatedAt} key={p.title} />)}
         </div>
        : <p className="opacity-80">You don't have any project with this type</p>}

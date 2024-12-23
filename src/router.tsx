@@ -2,6 +2,7 @@ import { createHashRouter, createRoutesFromElements, Outlet, Route } from "react
 import { MenuBar } from "./components/menu-bar";
 import { Chapters } from "./pages/project/chapters";
 import Home from "./pages/home";
+import { Editor } from "./pages/project/editor";
 
 export const router = createHashRouter(
   createRoutesFromElements(
@@ -15,6 +16,7 @@ export const router = createHashRouter(
         }
       >
         <Route path="/project/:id/chapters" Component={Chapters} />
+        <Route path="/project/editor/:id" Component={Editor} />
       </Route>
     </>
 
