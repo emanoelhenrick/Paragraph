@@ -1,2 +1,2 @@
-# Joy Xtream Player
+# Paragraph
 ## Em desenvolvimento...
