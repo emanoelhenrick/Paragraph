@@ -1,11 +1,4 @@
 import { ProjectCard } from "./components/ProjectCard"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/pages/Home/components/CategoriesFilter"
 import { useEffect, useMemo, useState } from "react"
 import { NewProjectDialog } from "./components/NewProjectDialog"
 import { ModeToggle } from "@/components/ui/mode-toggle"
@@ -48,8 +41,8 @@ export default function Home() {
 
   const columns = useMemo(() => {
     if (!width) return 3
-    if (Math.floor(width / 400) > 12) return 12
-    return Math.floor(width / 400) 
+    if (Math.floor(width / 300) > 12) return 12
+    return Math.floor(width / 300) 
   }, [width])
 
   console.log(columns);
