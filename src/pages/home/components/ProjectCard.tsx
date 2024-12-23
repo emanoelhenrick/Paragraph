@@ -24,7 +24,7 @@ export function ProjectCard({ title, updatedAt, id }: ProjectCardProps) {
   const navigate = useNavigate()
 
   function handleProjectPage() {
-    navigate(`/project/${id}/chapters`)
+    navigate(`/project/chapters`)
   }
 
   return (

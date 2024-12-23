@@ -10,12 +10,14 @@ export const router = createHashRouter(
       <Route path="/" Component={Home} />
       <Route path="/project/" element={
         <div className="flex">
-          <MenuBar />
+          <div className="fixed left-0">
+            <MenuBar />
+          </div>
           <Outlet />
         </div>
         }
       >
-        <Route path="/project/:id/chapters" Component={Chapters} />
+        <Route path="/project/chapters" Component={Chapters} />
         <Route path="/project/editor/:id" Component={Editor} />
       </Route>
     </>

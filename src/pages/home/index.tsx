@@ -19,17 +19,6 @@ export default function Home() {
   const [category, setCategory] = useState('all')
   const [allProjects, setAllProjects] = useState<ContentProps[]>(allProjectsFake)
   const [projects, setProjects] = useState<ContentProps[]>([])
-  
-  
-
-  // async function updateLocalProjects() {
-  //   const p = allProje
-  //   if (p) setAllProjects(p)
-  // }
-
-  // useEffect(() => {
-  //   updateLocalProjects()
-  // }, [])
 
   useEffect(() => {
     if (category == 'all') {
