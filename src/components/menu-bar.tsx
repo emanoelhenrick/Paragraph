@@ -32,7 +32,7 @@ export function MenuBar() {
               <Library size={18} className="invisible" />
             </div>
 
-            <div className="flex items-center gap-4 cursor-pointer z-10 transition text-sm text-muted-foreground hover:bg-secondary py-2 px-4 rounded-lg">
+            <div onClick={() => handlePage('/project/char')} className="flex items-center gap-4 cursor-pointer z-10 transition text-sm text-muted-foreground hover:bg-secondary py-2 px-4 rounded-lg">
               <UserPen size={18} strokeWidth={'1px'} className="text-muted-foreground hover:opacity-80 cursor-pointer" />
               <span>Characters</span>
               <UserPen size={18} className="invisible" />
