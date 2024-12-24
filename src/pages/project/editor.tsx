@@ -77,7 +77,7 @@ export function Editor() {
           </div>
         </Fade>
 
-        <div className={`bg-primary-foreground border fixed bottom-2 left-0 py-1 px-2 ml-2 rounded-md text-xs`}>
+        <div className={`bg-primary-foreground border fixed bottom-2 right-2 py-1 px-2 ml-2 rounded-md text-xs`}>
           <span className={`${editor.storage.characterCount.words() >= wordLimit ? 'text-green-400' : 'text-muted-foreground'}`} >{editor.storage.characterCount.words()} / {wordLimit} words</span>
         </div>
         </div>

@@ -1,14 +1,16 @@
 import { useMeasure } from "@uidotdev/usehooks"
-import { useCallback, useMemo } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Fade } from 'react-awesome-reveal'
 import { MenuBar } from "@/components/menu-bar"
 import { Plus } from "lucide-react"
 import { formatDistance } from "date-fns"
+import { Input } from "./components/input"
+import Fuse from "fuse.js"
 
 const caps = [
   {
-    title: 'capitulo',
+    title: 'capitulo 1',
     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
   },
   {
@@ -148,6 +150,7 @@ const caps = [
 export function Chapters() {
   const navigate = useNavigate()
 
+  const [search, setSearch] = useState('')
   const [ref, { width }] = useMeasure();
 
   const columns = useMemo(() => {
@@ -155,6 +158,16 @@ export function Chapters() {
       if (Math.floor(width / 400) > 12) return 12
       return Math.floor(width / 400) 
     }, [width])
+  
+  const chapters = useMemo(() => {
+    const fuse = new Fuse(caps, {
+      keys: ['title'],
+      threshold: 0.6,
+      minMatchCharLength: 1,
+
+    })
+    return search.length > 0 ? fuse.search(search).map(i => i.item) : caps
+  }, [search])
 
   function handleEditor(id: string) {
     navigate(`/project/editor/${id}`)
@@ -173,34 +186,26 @@ export function Chapters() {
   }, [])
   
   return (
-    <div className="flex">
-      <div style={{ fontFamily: 'sora'}} ref={ref} className="p-4 bg-background w-full flex justify-center">
-      <div>
-        <div className="flex gap-3 items-center w-fit bg-primary-foreground py-2 px-4 rounded-lg mb-4 border cursor-pointer hover:opacity-80 transition ">
-          <span className="text-sm  ">New chapter</span>
-          <Plus className="" size={14} />
+    <div className="w-full">
+      <div style={{ fontFamily: 'sora'}} ref={ref} className="p-3 bg-background w-full">
+        <div>
+          <div className="bg-primary-foreground rounded-xl justify-between border mb-3 flex text-sm text-muted-foreground">
+            <div className="p-1 flex">
+              <span className="px-2 py-1 hover:bg-secondary rounded-lg cursor-pointer transition">New Chapter</span>
+            </div>
+
+            <div className="flex items-center gap-2 mr-1">
+              <Input value={search} onChange={(v) => setSearch(v.currentTarget.value)} placeholder="Search" />
+            </div>
+          </div>
+
+          <div style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }} className={`grid gap-3`}>
+            <Fade triggerOnce duration={300}>
+              {chapters.map((c, index) => renderItem(c, index))}
+            </Fade>
+          </div>
         </div>
-
-        <div style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }} className={`grid gap-4`}>
-          <Fade triggerOnce duration={300}>
-          {caps.map((c, index) => renderItem(c, index))}
-
-          </Fade>
-        </div>
-
-        {/* <div className="flex flex-col gap-4">
-          {caps.map(c => {
-            return (
-              
-              <div className="p-8 bg-secondary rounded-xl">
-                <h1 className="text-xl capitalize">{c.title}</h1>
-                <span className="text-sm text-muted-foreground line-clamp-3">{c.desc}</span>
-              </div>
-            )
-          })}
-        </div> */}
       </div>
-    </div>
     </div>
   )
 }

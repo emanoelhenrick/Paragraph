@@ -28,12 +28,12 @@ const projectItems = [
   },
   {
     title: "Places",
-    url: "#",
+    url: "/project/places",
     icon: Map,
   },
   {
     title: "Notes",
-    url: "#",
+    url: "/project/notes",
     icon: StickyNote,
   }
 ]
@@ -58,7 +58,7 @@ export function AppSidebar() {
   return (
     <Sidebar variant="sidebar" collapsible="icon">
       <SidebarHeader className={`${sidebar.open && 'absolute'} w-full`}>
-        <SidebarTrigger className="right-4 text-muted-foreground self-end z-20" />
+        <SidebarTrigger className={`text-muted-foreground self-end z-20`} />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

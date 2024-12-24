@@ -6,6 +6,8 @@ import { Editor } from "./pages/project/editor";
 import { Characters } from "./pages/project/char";
 import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
 import { AppSidebar } from "./components/app-sidebar";
+import { Places } from "./pages/project/places";
+import { Notes } from "./pages/project/notes";
 
 export const router = createHashRouter(
   createRoutesFromElements(
@@ -21,6 +23,8 @@ export const router = createHashRouter(
       >
         <Route path="/project/chapters" Component={Chapters} />
         <Route path="/project/char" Component={Characters} />
+        <Route path="/project/places" Component={Places} />
+        <Route path="/project/notes" Component={Notes} />
         <Route path="/project/editor/:id" Component={Editor} />
       </Route>
     </>
