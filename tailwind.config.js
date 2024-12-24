@@ -62,6 +62,16 @@ export default {
   			highlight: {
   				DEFAULT: 'hsl(var(--highlight))',
   				foreground: 'hsl(var(--highlight-foreground))'
+  			},
+  			sidebar: {
+  				DEFAULT: 'hsl(var(--sidebar-background))',
+  				foreground: 'hsl(var(--sidebar-foreground))',
+  				primary: 'hsl(var(--sidebar-primary))',
+  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+  				accent: 'hsl(var(--sidebar-accent))',
+  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+  				border: 'hsl(var(--sidebar-border))',
+  				ring: 'hsl(var(--sidebar-ring))'
   			}
   		},
   		fontFamily: {
@@ -81,8 +91,7 @@ export default {
   				'Noto Color Emoji'
   			],
   			mono: [
-  				'var(--font-mono)',
-  				...require("tailwindcss/defaultTheme").fontFamily.mono
+  				'var(--font-mono)'
   			],
   			sans: [
   				'var(--font-sans)',

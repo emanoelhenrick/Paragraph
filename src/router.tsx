@@ -4,18 +4,19 @@ import { Chapters } from "./pages/project/chapters";
 import Home from "./pages/home";
 import { Editor } from "./pages/project/editor";
 import { Characters } from "./pages/project/char";
+import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
+import { AppSidebar } from "./components/app-sidebar";
 
 export const router = createHashRouter(
   createRoutesFromElements(
     <>
       <Route path="/" Component={Home} />
       <Route path="/project/" element={
-        <div className="flex">
-          <div className="fixed left-0">
-            <MenuBar />
-          </div>
+        <SidebarProvider>
+          <AppSidebar />
           <Outlet />
-        </div>
+        </SidebarProvider>
+        
         }
       >
         <Route path="/project/chapters" Component={Chapters} />

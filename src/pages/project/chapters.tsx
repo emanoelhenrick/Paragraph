@@ -174,9 +174,6 @@ export function Chapters() {
   
   return (
     <div className="flex">
-      <div className="invisible">
-        <MenuBar />
-      </div>
       <div style={{ fontFamily: 'sora'}} ref={ref} className="p-4 bg-background w-full flex justify-center">
       <div>
         <div className="flex gap-3 items-center w-fit bg-primary-foreground py-2 px-4 rounded-lg mb-4 border cursor-pointer hover:opacity-80 transition ">
