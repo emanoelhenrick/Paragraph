@@ -1,5 +1,6 @@
 import React from "react";
 import { useEditor, EditorContent, Editor as EditorType } from "@tiptap/react";
+import Placeholder from '@tiptap/extension-placeholder'
 import StarterKit from '@tiptap/starter-kit'
 import CharacterCount from '@tiptap/extension-character-count'
 import './styles.css'
@@ -40,19 +41,20 @@ export function Editor() {
   const editor = useEditor({
     editorProps: {
       attributes: {
-        class: 'border-none outline-none text-justify min-h-screen h-fit'
+        class: 'border-none outline-none text-justify min-h-screen h-fit',
       }
     },
     extensions: [
       StarterKit,
-      CharacterCount
+      CharacterCount,
+      Placeholder.configure({
+        placeholder: 'Write something …'
+      }),
     ],
-    content: `
-        ola
-      `
   });
 
   console.log(editor?.getJSON());
+  
 
   function handleBack() {
 
@@ -65,15 +67,17 @@ export function Editor() {
       <div className="fixed bottom-0 p-4 z-20 w-full flex justify-center group">
         <MenuBar editor={editor!} />
       </div>
-      <div className="mx-4 w-svw max-w-screen-lg h-screen" style={{fontFamily: 'sora'}}>
 
-        <Fade duration={300} triggerOnce>
-          <div onClick={handleBack} className="flex gap-2 items-center justify-center bg-primary-foreground border rounded-lg hover:opacity-80 cursor-pointer mt-4 w-fit py-2 pl-4 pr-6">
+      {/* <div onClick={handleBack} className="flex gap-2 items-center justify-center bg-primary-foreground border rounded-lg hover:opacity-80 cursor-pointer mt-4 w-fit py-2 pl-4 pr-6">
             <ArrowLeft className="text-muted-foreground" size={16} />
             <span className="text-sm text-muted-foreground">Back</span>
-          </div>
+          </div> */}
+      <div className="mx-4 w-full max-w-screen-lg h-screen" style={{fontFamily: 'sora'}}>
+
+        <Fade duration={300} triggerOnce>
+          
           <div className="flex gap-4">
-            <EditorContent className="border-none flex-1 mt-4 leading-relaxed bg-primary-foreground px-16 py-12 rounded-xl mb-20" editor={editor} />
+            <EditorContent placeholder="teste" style={{ fontFamily: 'PT Serif, serif'}} className="border-none flex-1 mt-4 text-lg leading-relaxed px-8 py-12 rounded-xl mb-20" editor={editor} />
           </div>
         </Fade>
 

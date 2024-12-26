@@ -131,8 +131,6 @@ export function Characters() {
             <span className="text-xl line-clamp-1">{char.name}</span>
             <span className="text-xs text-muted-foreground">{char.tag}</span>
           </div>
-
-          <img src={char.image} className="absolute rounded-lg w-full object-cover blur-3xl z-0 opacity-30" alt="" />
         </div>
       )
     }, [])
@@ -141,9 +139,8 @@ export function Characters() {
     <div className="flex p-3 w-full h-screen overflow-hidden">
 
       <section ref={ref} className="w-full h-full">
-        <div className="grid grid-cols-[5fr_3fr] gap-3 h-full">
-          <div>
-            <div className="flex gap-3 mb-3">
+        <div className="flex flex-col gap-3 h-full">
+            <div className="flex gap-3">
               <div className="bg-primary-foreground rounded-lg justify-between border flex text-sm text-muted-foreground flex-1">
                 <div className="p-1 flex">
                   <span className="px-2 py-1 hover:bg-secondary rounded-lg cursor-pointer transition">New Character</span>
@@ -157,18 +154,17 @@ export function Characters() {
               </div>
             </div>
             <ScrollArea className="h-full pb-12">
-            <div
-              style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
-              className="grid gap-3 h-fit overflow-auto"
-            >
-              <Fade triggerOnce duration={300}>
-                {characters.map((char, index) => renderItem(char, index))}
-              </Fade>
-            </div>
+              <div
+                style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
+                className="grid gap-3 h-fit overflow-auto"
+              >
+                <Fade triggerOnce duration={300}>
+                  {characters.map((char, index) => renderItem(char, index))}
+                </Fade>
+              </div>
             </ScrollArea>
-          </div>
 
-          <div className="bg-primary-foreground w-full rounded-xl overflow-hidden border gap-3">         
+          {/* <div className="bg-primary-foreground w-full rounded-xl overflow-hidden border gap-3">         
             <div className="w-full h-fit overflow-hidden relative flex gap-3 items-center p-6">
               <img
                 src={selectedChar.image}
@@ -209,7 +205,7 @@ export function Characters() {
               </div>
             </div>
             </ScrollArea>
-          </div>
+          </div> */}
         </div>
       </section>
       

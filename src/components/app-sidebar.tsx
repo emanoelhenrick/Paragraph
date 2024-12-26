@@ -44,7 +44,7 @@ export function AppSidebar() {
   const { toggleSidebar } = useSidebar()
 
   return (
-    <Sidebar variant="sidebar" collapsible="icon" >
+    <Sidebar variant="sidebar" collapsible="icon">
       <SidebarHeader>
         <OptionsSwitcher />
       </SidebarHeader>
