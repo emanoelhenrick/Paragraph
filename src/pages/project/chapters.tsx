@@ -3,148 +3,31 @@ import { useCallback, useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Fade } from 'react-awesome-reveal'
 import { MenuBar } from "@/components/menu-bar"
-import { Plus } from "lucide-react"
+import { Plus, Search } from "lucide-react"
 import { formatDistance } from "date-fns"
 import { Input } from "./components/input"
 import Fuse from "fuse.js"
+import { Badge } from "@/components/ui/badge"
 
 const caps = [
   {
-    title: 'capitulo 1',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
+    title: "EM QUE PHILEAS FOGG E PASSE PARTOUT RECIPROCAMENTE SE ACEITAM",
   },
   {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  }
-  ,{
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  }
-  ,{
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  }
-  ,{
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
+    title: "EM QUE PASSEPARTOUT SE CONVENCE DE Q UE FINALMENTE ENCONTROU O SEU IDEAL",
   },
   {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
+    title: "EM QUE PASSEPARTOUT SE CONVENCE DE Q UE FINALMENTE ENCONTROU O SEU IDEAL",
   },
   {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
+    title: "EM QUE PASSEPARTOUT SE CONVENCE DE Q UE FINALMENTE ENCONTROU O SEU IDEAL",
   },
   {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
+    title: "EM QUE PASSEPARTOUT SE CONVENCE DE Q UE FINALMENTE ENCONTROU O SEU IDEAL",
   },
   {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
+    title: "EM QUE PASSEPARTOUT SE CONVENCE DE Q UE FINALMENTE ENCONTROU O SEU IDEAL",
   },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  }
-  ,{
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  }
-  ,{
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  }
-  ,{
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  },
-  {
-    title: 'capitulo',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vitae eius error eligendi sequi aliquid consectetur vero debitis cumque facilis perferendis, repellendus quibusdam labore, soluta rem itaque tempora eos. Labore.'
-  }
 ]
 
 export function Chapters() {
@@ -173,14 +56,17 @@ export function Chapters() {
     navigate(`/project/editor/${id}`)
   }
 
-  const renderItem = useCallback((caps: any, index: number) => {
+  const renderItem = useCallback((c: any, index: number) => {
     return (
-      <div onClick={() => handleEditor(index.toString())} key={index} className="p-6 flex flex-col h-full justify-between gap-4 bg-primary-foreground border rounded-xl hover:opacity-80 cursor-pointer">
-        <div>
-          <h1 className="text-xl capitalize mb-1">Chapter {index}</h1>
-          <span className="text-sm text-muted-foreground line-clamp-3">{caps.desc}</span>
+      <div onClick={() => handleEditor(index.toString())} key={index} className="p-4 flex flex-col h-full justify-between gap-2 bg-primary-foreground border rounded-lg hover:opacity-80 cursor-pointer">
+        <div className="flex flex-col gap-2">
+          <span className="text-lg capitalize text-muted-foreground">chapter {index + 1}</span>
+          {c.title && <h1 className="text-xl capitalize">{c.title}</h1>}
         </div>
+        <div className="flex justify-between">
+        
         <span className="text-xs text-muted-foreground text-right">updated at {formatDistance(Date.now(), Date.now() - 1000)}</span>
+        </div>
       </div>
     )
   }, [])
@@ -189,13 +75,16 @@ export function Chapters() {
     <div className="w-full">
       <div style={{ fontFamily: 'sora'}} ref={ref} className="p-3 bg-background w-full">
         <div>
-          <div className="bg-primary-foreground rounded-xl justify-between border mb-3 flex text-sm text-muted-foreground">
-            <div className="p-1 flex">
-              <span className="px-2 py-1 hover:bg-secondary rounded-lg cursor-pointer transition">New Chapter</span>
+          <div className="flex gap-3 mb-3">
+            <div className="bg-primary-foreground flex-1 rounded-lg justify-between border flex text-sm text-muted-foreground">
+              <div className="p-1 flex">
+                <span className="px-2 py-1 hover:bg-secondary rounded-md cursor-pointer transition">New Chapter</span>
+              </div>
             </div>
 
-            <div className="flex items-center gap-2 mr-1">
-              <Input value={search} onChange={(v) => setSearch(v.currentTarget.value)} placeholder="Search" />
+            <div className="bg-primary-foreground rounded-lg justify-between border flex items-center text-sm text-muted-foreground">
+              <Input className="border-none focus:border-b rounded-none" value={search} onChange={(v) => setSearch(v.currentTarget.value)} placeholder="Search" />
+              <Search className="mr-2 size-4" />
             </div>
           </div>
 

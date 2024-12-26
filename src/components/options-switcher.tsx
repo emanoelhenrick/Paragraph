@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Check, ChevronsUpDown, Download, FolderOpen, GalleryVerticalEnd, Settings } from "lucide-react"
+import { AlignLeft, BookOpen, Check, ChevronsUpDown, Download, FolderOpen, GalleryVerticalEnd, Settings } from "lucide-react"
 
 import {
   DropdownMenu,
@@ -46,23 +46,23 @@ export function OptionsSwitcher() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-background">
-                <GalleryVerticalEnd className="size-4" />
+              <AlignLeft className="size-4" />
               </div>
               <div className="flex flex-col gap-0.5 leading-none">
                 <span className="font-semibold">Paragraph</span>
-                <span className="line-clamp-1 text-xs text-muted-foreground">Lord of the Rings</span>
+                <span className="line-clamp-1 text-xs text-muted-foreground">Dune</span>
               </div>
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width]"
+            className="w-[--radix-dropdown-menu-trigger-width] p-1"
             align="start"
           >
             {options.map((op) => (
               <DropdownMenuItem
                 key={op.value}
                 onSelect={op.action}
-                className="cursor-pointer py-2 text-xs text-muted-foreground"
+                className="cursor-pointer rounded-sm text-xs text-muted-foreground"
               >
                 {op.value}
               </DropdownMenuItem>

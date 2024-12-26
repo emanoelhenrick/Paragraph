@@ -9,10 +9,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { Book, ChevronsUpDown, GalleryVerticalEnd, Home, Library, Map, PanelLeft, Settings, StickyNote, UserPen } from "lucide-react"
+import { Home, Library, Map, PanelLeft, Settings, StickyNote, UserPen } from "lucide-react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { OptionsSwitcher } from "./options-switcher"
 
@@ -38,19 +37,6 @@ const projectItems = [
     icon: StickyNote,
   }
 ]
-
-const appItems = [
-  {
-    title: "Home",
-    url: "/",
-    icon: Home,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
-]
  
 export function AppSidebar() {
   const navigate = useNavigate()
@@ -70,7 +56,7 @@ export function AppSidebar() {
               {projectItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <div onClick={() => navigate(item.url)} className={`text-muted-foreground gap-4 cursor-pointer ${location.pathname.includes(item.title.toLowerCase()) && 'bg-secondary'}`}>
+                    <div onClick={() => navigate(item.url)} className={`text-muted-foreground text-sm gap-4 cursor-pointer ${location.pathname.includes(item.title.toLowerCase()) && 'bg-secondary'}`}>
                       <item.icon />
                       <span>{item.title}</span>
                     </div>
