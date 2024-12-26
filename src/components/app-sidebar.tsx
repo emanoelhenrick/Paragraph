@@ -12,8 +12,9 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { Home, Library, Map, Settings, StickyNote, UserPen } from "lucide-react"
-import { useNavigate } from "react-router-dom"
+import { Book, ChevronsUpDown, GalleryVerticalEnd, Home, Library, Map, PanelLeft, Settings, StickyNote, UserPen } from "lucide-react"
+import { useLocation, useNavigate } from "react-router-dom"
+import { OptionsSwitcher } from "./options-switcher"
 
 const projectItems = [
   {
@@ -23,7 +24,7 @@ const projectItems = [
   },
   {
     title: "Characters",
-    url: "/project/char",
+    url: "/project/characters",
     icon: UserPen,
   },
   {
@@ -53,12 +54,13 @@ const appItems = [
  
 export function AppSidebar() {
   const navigate = useNavigate()
-  const sidebar = useSidebar()
+  const location = useLocation()
+  const { toggleSidebar } = useSidebar()
 
   return (
-    <Sidebar variant="sidebar" collapsible="icon">
-      <SidebarHeader className={`${sidebar.open && 'absolute'} w-full`}>
-        <SidebarTrigger className={`text-muted-foreground self-end z-20`} />
+    <Sidebar variant="sidebar" collapsible="icon" >
+      <SidebarHeader>
+        <OptionsSwitcher />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -68,7 +70,7 @@ export function AppSidebar() {
               {projectItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <div onClick={() => navigate(item.url)} className="text-muted-foreground gap-4 cursor-pointer">
+                    <div onClick={() => navigate(item.url)} className={`text-muted-foreground gap-4 cursor-pointer ${location.pathname.includes(item.title.toLowerCase()) && 'bg-secondary'}`}>
                       <item.icon />
                       <span>{item.title}</span>
                     </div>
@@ -81,16 +83,13 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu className="gap-2">
-          {appItems.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild>
-                <div onClick={() => navigate(item.url)} className="text-muted-foreground gap-4 cursor-pointer">
-                  <item.icon />
-                  <span>{item.title}</span>
+          <SidebarMenuItem>
+              <SidebarMenuButton asChild className="w-fit">
+                <div onClick={toggleSidebar} className="text-muted-foreground gap-4 cursor-pointer w-fit">
+                  <PanelLeft />
                 </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
-          ))}
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
