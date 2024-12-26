@@ -1,4 +1,4 @@
-import { ImageOff, Search } from "lucide-react";
+import { ImageOff, Pencil, Search } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import { Badge } from "@/components/ui/badge";
@@ -8,12 +8,14 @@ import { useNavigate } from "react-router-dom";
 import { useMeasure } from "@uidotdev/usehooks";
 import { Dialog, DialogContent, DialogTrigger } from "./components/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Textarea } from "@/components/ui/textarea";
 
 export const chars = [
   {
     id: 1,
     name: 'Paul Atreides',
-    description: "Também conhecido como Paul Muad'Dib, Usul e mais tarde O Pregador, foi um humano com habilidades prescientes responsável pela queda do Imperador Shaddam IV e por governar o Imperium de 10.193 até 10.205 d.G.. Nascido no planeta de Caladan, Paul Atreides era filho do Duque Leto Atreides I e de sua concubina Bene Gesserit, Lady Jéssica Atreides. Também era irmão de Alia Atreides, que viria a nascer mais tarde. Também conhecido como Paul Muad'Dib, Usul e mais tarde O Pregador, foi um humano com habilidades prescientes responsável pela queda do Imperador Shaddam IV e por governar o Imperium de 10.193 até 10.205 d.G.. Nascido no planeta de Caladan, Paul Atreides era filho do Duque Leto Atreides I e de sua concubina Bene Gesserit, Lady Jéssica Atreides. Também era irmão de Alia Atreides, que viria a nascer mais tarde. Também conhecido como Paul Muad'Dib, Usul e mais tarde O Pregador, foi um humano com habilidades prescientes responsável pela queda do Imperador Shaddam IV e por governar o Imperium de 10.193 até 10.205 d.G..",
+    description: "Também conhecido como Paul Muad'Dib, Usul e mais tarde O Pregador, foi um humano com habilidades prescientes responsável pela queda do Imperador Shaddam IV e por governar o Imperium de 10.193 até 10.205 d.G.. Nascido no planeta de Caladan, Paul Atreides era filho do Duque Leto Atreides I e de sua concubina Bene Gesserit, Lady Jéssica Atreides. ",
     tag: 'Emperor',
     planet: "Caladan",
     house: "Atreides",
@@ -56,7 +58,7 @@ export const chars = [
   },
   {
     id: 6,
-    name: 'Stilgar Ben Fifrawi  ',
+    name: 'Stilgar Ben Fifrawi',
     description: 'Stilgar, nome completo Stilgar Ben Fifrawi, foi o Naib do Sietch Tabr, tribo Fremen de Arrakis. Stilgar era um grande amigo do Imperador Paul Atreides, já que ele o havia acolhido juntamente com sua mãe, Jéssica Atreides, no Sietch Tabr após o ataque da Casa Harkonnen.',
     image: 'https://static.wikia.nocookie.net/dune/images/8/8c/Stilgartextless.webp',
     tag: 'Naib',
@@ -122,21 +124,74 @@ export function Characters() {
 
   const renderItem = useCallback((char: any, index: number) => {
       return (
-        <div onClick={() => setSelectedChar(chars.find(c => c.id === char.id))} className="w-full cursor-pointer hover:opacity-80 overflow-hidden relative flex bg-primary-foreground rounded-lg border gap-3 items-center p-3">
-          <div className="z-10 aspect-square rounded-md flex justify-center items-center overflow-hidden">
-          <img src={char.image} className="object-cover aspect-square size-24" alt="" />
+        <Sheet>
+          <SheetTrigger className="w-full">
+            <div onClick={() => setSelectedChar(chars.find(c => c.id === char.id))} className="w-full cursor-pointer hover:opacity-80 overflow-hidden relative flex bg-primary-foreground rounded-lg border gap-3 items-center p-3">
+              <div className="z-10 aspect-square rounded-md flex justify-center items-center overflow-hidden">
+                <img src={char.image} className="object-cover aspect-square size-24" alt="" />
+              </div>
 
-          </div>
-          <div className="flex flex-col items-start text-left w-full z-10">
-            <span className="text-xl line-clamp-1">{char.name}</span>
-            <span className="text-xs text-muted-foreground">{char.tag}</span>
-          </div>
-        </div>
+              <div className="flex flex-col items-start text-left w-full z-10">
+                <span className="text-xl line-clamp-1">{char.name}</span>
+                <span className="text-xs text-muted-foreground">{char.tag}</span>
+              </div>
+            </div>
+          </SheetTrigger>
+          <SheetContent>
+            <div className="absolute flex gap-2 items-center right-4 top-4 cursor-pointer hover:opacity-80 z-20">
+              <span className="text-sm text-muted-foreground">Edit</span>
+            </div>
+            <ScrollArea className="h-full w-full">
+            <div className=" w-full overflow-hidden gap-3">         
+            <div className="w-full h-fit overflow-hidden relative flex gap-3 items-center p-6">
+              <img
+                src={char.image}
+                className="rounded-lg size-32 object-cover hover:opacity-80 cursor-pointer transition z-10"
+                alt=""
+              />
+              <div className="flex flex-col z-10">
+                <span className="text-3xl line-clamp-3">{char.name}</span>
+                <span className="text-sm text-muted-foreground line-clamp-1">{char.tag}</span>
+              </div>
+              <img
+                src={char.image}
+                className="absolute rounded-lg w-full object-cover blur-3xl z-0 opacity-30"
+                alt=""
+              />
+            </div>
+              <div className="gap-1 px-6 py-3">
+                <span className="text-sm text-muted-foreground">
+                  {char.description}
+                </span>
+                <div className="flex flex-col gap-6 mt-6">
+                  {charTemplate.labels
+                    .filter(
+                      (l) =>
+                        l.title !== "description" &&
+                        l.title !== "name" &&
+                        l.title !== "image"
+                    )
+                    .map((l, idx) => (
+                      <div key={idx} className="flex flex-col gap-1">
+                        <span className="text-sm font-bold capitalize">{l.title}</span>
+                        <span className="text-sm text-muted-foreground">
+                          {char[l.title]}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </ScrollArea>
+          </SheetContent>
+        </Sheet>
+
+        
       )
     }, [])
 
   return (
-    <div className="flex p-3 w-full h-screen overflow-hidden">
+    <div className="flex p-3 w-full h-screen">
 
       <section ref={ref} className="w-full h-full">
         <div className="flex flex-col gap-3 h-full">
@@ -164,48 +219,7 @@ export function Characters() {
               </div>
             </ScrollArea>
 
-          {/* <div className="bg-primary-foreground w-full rounded-xl overflow-hidden border gap-3">         
-            <div className="w-full h-fit overflow-hidden relative flex gap-3 items-center p-6">
-              <img
-                src={selectedChar.image}
-                className="rounded-lg size-32 object-cover hover:opacity-80 cursor-pointer transition z-10"
-                alt=""
-              />
-              <div className="flex flex-col z-10">
-                <span className="text-4xl">{selectedChar.name}</span>
-                <span className="text-sm text-muted-foreground">{selectedChar.tag}</span>
-              </div>
-              <img
-                src={selectedChar.image}
-                className="absolute rounded-lg w-full object-cover blur-3xl z-0 opacity-30"
-                alt=""
-              />
-            </div>
-            <ScrollArea className="h-full pb-48">
-            <div className="gap-1 px-6 py-3">
-              <span className="text-sm text-muted-foreground">
-                {selectedChar.description}
-              </span>
-              <div className="flex flex-col gap-6 mt-6">
-                {charTemplate.labels
-                  .filter(
-                    (l) =>
-                      l.title !== "description" &&
-                      l.title !== "name" &&
-                      l.title !== "image"
-                  )
-                  .map((l, idx) => (
-                    <div key={idx} className="flex flex-col gap-1">
-                      <span className="text-sm font-bold capitalize">{l.title}</span>
-                      <span className="text-sm text-muted-foreground">
-                        {selectedChar[l.title]}
-                      </span>
-                    </div>
-                  ))}
-              </div>
-            </div>
-            </ScrollArea>
-          </div> */}
+          
         </div>
       </section>
       
