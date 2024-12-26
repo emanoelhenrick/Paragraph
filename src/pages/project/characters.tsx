@@ -138,10 +138,10 @@ export function Characters() {
     }, [])
 
   return (
-    <div className="flex p-3 w-full h-screen ">
+    <div className="flex p-3 w-full h-screen overflow-hidden">
 
       <section ref={ref} className="w-full h-full">
-        <div className="flex gap-3  h-full">
+        <div className="grid grid-cols-[5fr_3fr] gap-3 h-full">
           <div>
             <div className="flex gap-3 mb-3">
               <div className="bg-primary-foreground rounded-lg justify-between border flex text-sm text-muted-foreground flex-1">
@@ -156,6 +156,7 @@ export function Characters() {
                 <Search className="mr-2 size-4" />
               </div>
             </div>
+            <ScrollArea className="h-full pb-12">
             <div
               style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
               className="grid gap-3 h-fit overflow-auto"
@@ -164,11 +165,10 @@ export function Characters() {
                 {characters.map((char, index) => renderItem(char, index))}
               </Fade>
             </div>
+            </ScrollArea>
           </div>
 
-          <div className="bg-primary-foreground max-w-screen-md rounded-xl overflow-hidden border gap-3">
-            
-          
+          <div className="bg-primary-foreground w-full rounded-xl overflow-hidden border gap-3">         
             <div className="w-full h-fit overflow-hidden relative flex gap-3 items-center p-6">
               <img
                 src={selectedChar.image}
