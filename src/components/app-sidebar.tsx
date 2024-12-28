@@ -18,9 +18,10 @@ import { ChevronDown, Home, Library, Map, PanelLeft, Plus, Settings, StickyNote,
 import { useLocation, useNavigate } from "react-router-dom"
 import { OptionsSwitcher } from "./options-switcher"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible"
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Input } from "./ui/input"
 import { randomUUID } from "crypto"
+import { Button } from "./ui/button"
 
 const projectItems = [
   {
@@ -92,6 +93,7 @@ const defaultFolders = [
 ]
  
 export function AppSidebar() {
+
   const navigate = useNavigate()
   const location = useLocation()
   const { toggleSidebar } = useSidebar()
@@ -99,7 +101,8 @@ export function AppSidebar() {
   const [folderName, setFolderName] = useState('')
   const [folders, setFolders] = useState(defaultFolders)
 
-  function addNewFolder() {
+  function addNewFolder(event: any) {
+    event.preventDefault()
     const newFolder = {
       title: folderName,
       url: `/project/custom/`,
@@ -109,49 +112,48 @@ export function AppSidebar() {
     setFolderName('')
   }
 
+  const renderItem = useCallback((folder: any) => {
+    const folderData = foldersData.find(f => f.folderId === folder.id)
+    return (
+      <SidebarMenu className="py-0 px-2" key={folder.id}>
+        <Collapsible defaultOpen className="group/collapsible">
+          <SidebarMenuItem>
+            <CollapsibleTrigger asChild>
+              <SidebarMenuButton className="flex justify-between">
+                    <div className={`text-muted-foreground flex items-center text-xs gap-2 cursor-pointer`}>
+                      {folder.icon ? <folder.icon className="size-3.5 text-muted-foreground" /> : <ChevronDown className="size-4 text-muted-foreground transition-transform group-data-[state=open]/collapsible:rotate-180" />}
+                      <span>{folder.title}</span>
+                    </div>
+              </SidebarMenuButton>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <SidebarMenuSub>
+              {folderData ? folderData.data.map((item, index) => (
+                <SidebarMenuSubItem key={index}>
+                  <SidebarMenuButton asChild onClick={() => navigate(folder.url + index)}>
+                    <div className={`text-muted-foreground text-xs gap-4 cursor-pointer`}>
+                      <span>{item.title}</span>
+                    </div>
+                  </SidebarMenuButton>
+                </SidebarMenuSubItem>
+              )) : <span className="text-xs text-muted-foreground text-center">Nothing here</span>}
+              </SidebarMenuSub>
+            </CollapsibleContent>
+
+            <SidebarMenuBadge className="text-muted-foreground">{folderData ? folderData.data.length : '0'}</SidebarMenuBadge>
+          </SidebarMenuItem>
+        </Collapsible>
+      </SidebarMenu>
+    )
+  }, [])
+
   return (
     <Sidebar variant="sidebar" collapsible="icon">
       <SidebarHeader>
         <OptionsSwitcher />
       </SidebarHeader>
       <SidebarContent>
-
-        {folders.map(folder => {
-          const folderData = foldersData.find(f => f.folderId === folder.id)
-          return (
-              <SidebarMenu className="py-0 px-2">
-                <Collapsible defaultOpen className="group/collapsible">
-                  <SidebarMenuItem>
-                    <CollapsibleTrigger asChild>
-                      <SidebarMenuButton className="flex justify-between">
-                            <div className={`text-muted-foreground flex items-center text-xs gap-2 cursor-pointer`}>
-                              {folder.icon ? <folder.icon className="size-3.5 text-muted-foreground" /> : <ChevronDown className="size-4 text-muted-foreground transition-transform group-data-[state=open]/collapsible:rotate-180" />}
-                              <span>{folder.title}</span>
-                            </div>
-                      </SidebarMenuButton>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent>
-                      <SidebarMenuSub>
-                      {folderData ? folderData.data.map((item, index) => (
-                        <SidebarMenuSubItem key={index}>
-                          <SidebarMenuButton asChild onClick={() => navigate(folder.url + index)}>
-                            <div className={`text-muted-foreground text-xs gap-4 cursor-pointer`}>
-                              <span>{item.title}</span>
-                            </div>
-                          </SidebarMenuButton>
-                        </SidebarMenuSubItem>
-                      )) : <span className="text-xs text-muted-foreground text-center">Nothing here</span>}
-                      </SidebarMenuSub>
-                    </CollapsibleContent>
-
-                    <SidebarMenuBadge className="text-muted-foreground">{folderData ? folderData.data.length : '0'}</SidebarMenuBadge>
-                  </SidebarMenuItem>
-                </Collapsible>
-              </SidebarMenu>
-
-            )
-          })}
-
+        {folders.map(folder => renderItem(folder))}
       </SidebarContent>
       <SidebarFooter>
       <SidebarMenu className="gap-2">
