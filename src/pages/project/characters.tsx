@@ -127,7 +127,7 @@ export function Characters() {
         <Sheet>
           <SheetTrigger className="w-full">
             <div onClick={() => setSelectedChar(chars.find(c => c.id === char.id))} className="w-full cursor-pointer hover:opacity-80 overflow-hidden relative flex bg-primary-foreground rounded-lg border gap-3 items-center p-3">
-              <div className="z-10 aspect-square rounded-md flex justify-center items-center overflow-hidden">
+              <div className="z-10 aspect-square rounded-md flex justify-center items-center border overflow-hidden">
                 <img src={char.image} className="object-cover aspect-square size-24" alt="" />
               </div>
 
@@ -135,6 +135,8 @@ export function Characters() {
                 <span className="text-xl line-clamp-1">{char.name}</span>
                 <span className="text-xs text-muted-foreground">{char.tag}</span>
               </div>
+
+              {/* <img src={char.image} className="object-cover w-full absolute scale-105 blur-3xl opacity-20" alt="" /> */}
             </div>
           </SheetTrigger>
           <SheetContent>
