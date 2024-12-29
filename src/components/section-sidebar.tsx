@@ -1,23 +1,24 @@
-import { Album, AlignLeft, ChartLine, Library, StickyNote } from "lucide-react"
+import { Album, ChartLine, ChartPie, Library, StickyNote } from "lucide-react"
 import { OptionsSwitcher } from "./options-switcher"
 import { useSelectedSection } from "@/states/selected-section-state"
+import { IconAlignBoxLeftBottom, IconAlignBoxLeftTopFilled, IconBoxMultipleFilled, IconChartAreaFilled, IconFileFilled, IconGraphFilled, IconNote, IconQuoteFilled, IconStack2Filled, IconStackFilled, IconTimeline } from '@tabler/icons-react';
 
 const sections = [
   {
     path: 'chapters',
-    icon: Library
+    icon: IconAlignBoxLeftTopFilled
   },
   {
     path: 'notes',
-    icon: StickyNote
+    icon: IconQuoteFilled
   },
   {
     path: 'scenes',
-    icon: Album
+    icon: IconStackFilled
   },
   {
     path: 'stats',
-    icon: ChartLine
+    icon: IconTimeline
   },
 
 ]
@@ -31,8 +32,8 @@ export function SectionSidebar() {
       <section className="flex flex-col items-center gap-4">
         {sections.map(item => {
           return (
-            <div key={item.path} onClick={() => setSelectedSection(item.path)} className={`p-3 rounded-lg cursor-pointer  ${selectedSection === item.path ? 'bg-primary text-background hover:text-background' : 'text-muted-foreground hover:text-primary'}`}>
-              <item.icon strokeWidth={'2px'} className="size-6" />
+            <div key={item.path} onClick={() => setSelectedSection(item.path)} className={`p-2 rounded-lg cursor-pointer  ${selectedSection === item.path ? 'bg-primary text-background hover:text-background' : 'text-muted-foreground hover:text-primary'}`}>
+              <item.icon  className="size-6" />
             </div>
           )
         })}

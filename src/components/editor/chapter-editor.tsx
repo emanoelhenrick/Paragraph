@@ -102,6 +102,7 @@ export function ChapterEditor() {
         class: 'border-none max-w-screen-md outline-none min-h-screen h-fit',
       }
     },
+    autofocus: true,
     extensions: [
       StarterKit,
       CharacterCount,

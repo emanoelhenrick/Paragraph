@@ -1,10 +1,19 @@
-import { Plus } from "lucide-react"
+import { Folder, Plus, StickyNote } from "lucide-react"
 import { Input } from "../ui/input"
 import { ScrollArea } from "../ui/scroll-area"
 import { useMemo, useState } from "react";
 import { useMeasure } from "@uidotdev/usehooks";
 import Fuse from "fuse.js";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { Fade } from "react-awesome-reveal";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const notes = [
   {
@@ -115,9 +124,9 @@ export function NotesSection() {
   return (
     <section className="h-screen overflow-hidden">
       <header ref={headerRef} className="text-muted-foreground uppercase items-center p-4 pb-2">
-        <div className="flex justify-between mb-3">
+        <div className="flex justify-between items-center mb-2">
           <span className="text-xs">Notes</span>
-          <Plus className="size-4" />
+          <DropdownPlus />
         </div>
 
         <div className="flex gap-3">
@@ -137,17 +146,56 @@ export function NotesSection() {
       <section ref={gridRef}>
         <ScrollArea style={{ height: `calc(100vh - ${height}px)`}} className="h-screen">
           <div style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }} className="grid p-4 gap-4"> 
+            <Fade triggerOnce duration={300}>
             {chaps.map((item, index) => {
               return (
-                <div key={item.title} onClick={() => setSelected(index)} className={"flex flex-col gap-1 p-4 border rounded-xl cursor-pointer hover:bg-primary-foreground " + (index === selected && ' bg-primary-foreground')}>
+                <div key={index} onClick={() => setSelected(index)} className={"flex flex-col gap-1 p-4 border rounded-xl cursor-pointer hover:bg-primary-foreground " + (index === selected && ' bg-primary-foreground')}>
                   <span className="text-md font-bold">{item.title}</span>
                   <span className="text-xs text-muted-foreground line-clamp-6">{item.resume}</span>
                 </div>
               )
             })}
+            </Fade>
           </div>
         </ScrollArea>
       </section>
     </section>
   )
 }
+
+function DropdownPlus() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <div className="cursor-pointer hover:opacity-80 p-1">
+          <Plus size={16} strokeWidth={2} aria-hidden="true" className="size-4" />
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="">
+        <DropdownMenuItem className="cursor-pointer">
+          <div
+            className="flex size-6 items-center justify-center rounded-lg"
+            aria-hidden="true"
+          >
+            <StickyNote size={14} strokeWidth={2} className="opacity-60" />
+          </div>
+          <div>
+            <div className="text-xs">Note</div>
+          </div>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
+          <div
+            className="flex size-6 items-center justify-center rounded-lg"
+            aria-hidden="true"
+          >
+            <Folder size={14} strokeWidth={2} className="opacity-60" />
+          </div>
+          <div>
+            <div className="text-xs">Folder</div>
+          </div>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
