@@ -8,9 +8,10 @@ import { Extension } from '@tiptap/core';
 import './styles.css'
 import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Heading1, Italic, SeparatorVertical } from "lucide-react";
 import { Fade } from "react-awesome-reveal";
-import { useNavigate } from "react-router-dom";
-import { Separator } from "@/components/ui/separator";
-import { useEffect } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { getChapter } from "@/fakeData/fake-chapters";
+import { ScrollArea } from "../ui/scroll-area";
 
 const MenuBar = ({ editor }: { editor: EditorType }) => {
   if (!editor) {
@@ -83,16 +84,24 @@ const LiteralTab = Extension.create({
   }
 })
 
-export function Editor() {
-  const navigate = useNavigate()
+interface ChapterProps {
+  id: string
+  resume: string
+  title: string
+}
+
+export function ChapterEditor() {
+  const params = useParams()
+  const chapterId = params.id
+  const [chapter, setChapter] = useState<ChapterProps>()
 
   const editor = useEditor({
+    content: chapter ? chapter.resume : '',
     editorProps: {
       attributes: {
         class: 'border-none max-w-screen-md outline-none min-h-screen h-fit',
       }
     },
-    autofocus: true,
     extensions: [
       StarterKit,
       CharacterCount,
@@ -105,24 +114,38 @@ export function Editor() {
         placeholder: 'Write something …'
       }),
     ],
-  });
+  }, [chapter]);
 
-  return (
-    <section className="flex justify-center w-full max-h-screen overflow-hidden">
-      <div className="mx-4 w-full max-w-screen-md h-screen" style={{fontFamily: 'sora'}}>
-        <Fade duration={300} triggerOnce>
-          <div className="flex gap-4">
-            {editor && <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
-              <MenuBar editor={editor} />
-            </BubbleMenu>}
-            <EditorContent placeholder="teste" style={{ fontFamily: 'PT Serif, serif'}} className="border-none flex-1 mt-4 text-lg px-8 py-12 rounded-xl mb-20" editor={editor} />
+  useEffect(() => {
+    if (!chapterId) return
+    setChapter(getChapter(chapterId))
+  }, [chapterId])
+
+  if (chapter) {
+    return (
+      <ScrollArea>
+        <section className="w-full max-h-screen">
+          <header className="p-4">
+            <span className="text-xl">{chapter.title}</span>
+          </header>
+          <div className=" w-full max-w-screen-md m-auto h-screen" style={{fontFamily: 'sora'}}>
+            <Fade duration={300} triggerOnce>
+              <div className="flex gap-4">
+                {editor && <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
+                  <MenuBar editor={editor} />
+                </BubbleMenu>}
+                { chapterId && <EditorContent placeholder="teste" style={{ fontFamily: 'PT Serif, serif'}} className="border-none flex-1 mt-4 text-lg px-8 py-12 rounded-xl mb-20" editor={editor} />}
+              </div>
+            </Fade>
+  
+            <div className={`bg-primary-foreground border fixed bottom-2 right-4 py-1 px-2 ml-2 rounded-md text-xs`}>
+              <span className={`${editor?.storage.characterCount.words() >= wordLimit ? 'text-green-400' : 'text-muted-foreground'}`} >{editor?.storage.characterCount.words()} / {wordLimit} words</span>
+            </div>
           </div>
-        </Fade>
+        </section>
+      </ScrollArea>
+    );
+  }
 
-        <div className={`bg-primary-foreground border fixed bottom-2 right-2 py-1 px-2 ml-2 rounded-md text-xs`}>
-          <span className={`${editor?.storage.characterCount.words() >= wordLimit ? 'text-green-400' : 'text-muted-foreground'}`} >{editor?.storage.characterCount.words()} / {wordLimit} words</span>
-        </div>
-        </div>
-    </section>
-  );
+  return <></>
 }

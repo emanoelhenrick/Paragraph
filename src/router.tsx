@@ -9,6 +9,10 @@ import { Places } from "./pages/project/places";
 import { Notes } from "./pages/project/notes";
 import { CharacterPage } from "./pages/project/character";
 import { IconArrowLeft, IconBrandTabler, IconSettings, IconUserBolt } from "@tabler/icons-react";
+import { SectionSidebar } from "./components/section-sidebar";
+import { SectionTab } from "./components/section-tab";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "./components/ui/resizable";
+import { ChapterEditor } from "./components/editor/chapter-editor";
 
 
 export const router = createHashRouter(
@@ -16,21 +20,26 @@ export const router = createHashRouter(
     <>
       <Route path="/" Component={Home} />
       <Route path="/project/" element={
-        <SidebarProvider>
-          <AppSidebar />
-          <Outlet />
-        </SidebarProvider> 
+        <div className="flex">
+          <SectionSidebar />
+          <ResizablePanelGroup direction="horizontal">
+            <ResizablePanel defaultSize={25}>
+              <SectionTab />
+            </ResizablePanel>
+            <ResizableHandle />
+            <ResizablePanel defaultSize={75}>
+              <Outlet />
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        </div> 
         }
       >
-        <Route path="/project/chapters" Component={Chapters} />
-        <Route path="/project/editor/:id" Component={Editor} />
+        <Route path="/project/chapter/:id" Component={ChapterEditor} />
+        <Route path="/project/note" Component={Editor} />
 
-        <Route path="/project/characters" Component={Characters} />
-        <Route path="/project/characters/:id" Component={CharacterPage} />
+        <Route path="/project/scenes" Component={Places} />
 
-        <Route path="/project/places" Component={Places} />
-
-        <Route path="/project/notes" Component={Notes} />
+        <Route path="/project/stats" Component={Notes} />
       </Route>
     </>
 

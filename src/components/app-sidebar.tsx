@@ -112,7 +112,7 @@ export function AppSidebar() {
     setFolderName('')
   }
 
-  const renderItem = useCallback((folder: any) => {
+  const renderMenuItem = useCallback((folder: any) => {
     const folderData = foldersData.find(f => f.folderId === folder.id)
     return (
       <SidebarMenu className="py-0 px-2" key={folder.id}>
@@ -120,30 +120,33 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <CollapsibleTrigger asChild>
               <SidebarMenuButton className="flex justify-between">
-                    <div className={`text-muted-foreground flex items-center text-xs gap-2 cursor-pointer`}>
-                      {folder.icon ? <folder.icon className="size-3.5 text-muted-foreground" /> : <ChevronDown className="size-4 text-muted-foreground transition-transform group-data-[state=open]/collapsible:rotate-180" />}
-                      <span>{folder.title}</span>
-                    </div>
+                <div className={`text-muted-foreground flex items-center text-xs gap-2 cursor-pointer`}>
+                  {folder.icon ? <folder.icon className="size-3.5 text-muted-foreground" /> : <ChevronDown className="size-4 text-muted-foreground transition-transform group-data-[state=open]/collapsible:rotate-180" />}
+                  <span className="line-clamp-1 max-w-44">{folder.title}</span>
+                </div>
               </SidebarMenuButton>
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarMenuSub>
-              {folderData ? folderData.data.map((item, index) => (
-                <SidebarMenuSubItem key={index}>
-                  <SidebarMenuButton asChild onClick={() => navigate(folder.url + index)}>
-                    <div className={`text-muted-foreground text-xs gap-4 cursor-pointer`}>
-                      <span>{item.title}</span>
-                    </div>
-                  </SidebarMenuButton>
-                </SidebarMenuSubItem>
-              )) : <span className="text-xs text-muted-foreground text-center">Nothing here</span>}
+                {folderData ? folderData.data.map((item, index) => renderSubMenuItem(item, index, folder)) : <span className="text-xs text-muted-foreground text-center">Nothing here</span>}
               </SidebarMenuSub>
             </CollapsibleContent>
-
             <SidebarMenuBadge className="text-muted-foreground">{folderData ? folderData.data.length : '0'}</SidebarMenuBadge>
           </SidebarMenuItem>
         </Collapsible>
       </SidebarMenu>
+    )
+  }, [])
+
+  const renderSubMenuItem = useCallback((item: any, index: number, folder: any) => {
+    return (
+      <SidebarMenuSubItem key={index}>
+        <SidebarMenuButton asChild onClick={() => navigate(folder.url + index)}>
+          <div className={`text-muted-foreground text-xs gap-4 cursor-pointer`}>
+            <span>{item.title}</span>
+          </div>
+        </SidebarMenuButton>
+      </SidebarMenuSubItem>
     )
   }, [])
 
@@ -152,18 +155,20 @@ export function AppSidebar() {
       <SidebarHeader>
         <OptionsSwitcher />
       </SidebarHeader>
+
       <SidebarContent>
-        {folders.map(folder => renderItem(folder))}
+        {folders.map(folder => renderMenuItem(folder))}
       </SidebarContent>
+
       <SidebarFooter>
-      <SidebarMenu className="gap-2">
+        <SidebarMenu className="gap-2">
           <SidebarMenuItem>
-              <SidebarMenuButton asChild className="w-fit">
-                <div onClick={toggleSidebar} className="text-muted-foreground gap-4 cursor-pointer w-fit">
-                  <PanelLeft />
-                </div>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+            <SidebarMenuButton asChild className="w-fit">
+              <div onClick={toggleSidebar} className="text-muted-foreground gap-4 cursor-pointer w-fit">
+                <PanelLeft />
+              </div>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         </SidebarMenu>
 
         <form onSubmit={addNewFolder}>
