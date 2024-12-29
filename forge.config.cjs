@@ -4,15 +4,16 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 module.exports = {
   packagerConfig: {
     asar: true,
+    icon: "/public/icon"
   },
   rebuildConfig: {},
   makers: [
     {
       "name": "@electron-forge/maker-squirrel",
       "config": {
-        "name": "paragraph-editor",
+        "name": "Paragraph",
         "noMsi": true,
-        "shortcutName": "JXP",
+        "shortcutName": "Pr",
         "createDesktopShortcut": true
       }
     },
@@ -23,6 +24,7 @@ module.exports = {
     {
       name: '@electron-forge/maker-rpm',
       config: {
+        "name": "Paragraph",
       },
     }
   ],
