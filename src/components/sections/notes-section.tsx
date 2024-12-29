@@ -106,7 +106,7 @@ export function NotesSection() {
   const [selected, setSelected] = useState(0)
 
   const columns = useMemo(() => {
-    if (!width) return 2
+    if (!width) return 1
     if (Math.floor(width / 300) > 12) return 12
     return Math.floor(width / 300) 
   }, [width])

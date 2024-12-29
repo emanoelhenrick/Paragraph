@@ -23,7 +23,7 @@ export const router = createHashRouter(
         <div className="flex">
           <SectionSidebar />
           <ResizablePanelGroup direction="horizontal">
-            <ResizablePanel className="min-w-96" defaultSize={25}>
+            <ResizablePanel className="min-w-52" defaultSize={25}>
               <SectionTab />
             </ResizablePanel>
             <ResizableHandle />
