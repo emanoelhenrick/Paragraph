@@ -61,7 +61,6 @@ function createWindow() {
   }
 
   win.once('ready-to-show', () => {
-    win?.setIcon(appIcon)
     win?.maximize()
   })
 }

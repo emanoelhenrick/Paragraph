@@ -5,8 +5,8 @@ import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Heading1, Itali
 export const EditorMenuBar = ({ editor }: { editor: Editor }) => {
 
   return (
-    <div className="flex bg-background border gap-2 p-1 rounded-md">
-      <section className="flex justify-between gap-1 border-r pr-2">
+    <div className="flex w-fit bg-background border gap-2 p-1 rounded-md">
+      <section className="flex justify-between gap-1">
         <div
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           className={(editor.isActive('heading') ? 'bg-secondary' : '') + ' p-2 rounded-sm cursor-pointer hover:opacity-80'} aria-label="Toggle heading"
@@ -27,7 +27,7 @@ export const EditorMenuBar = ({ editor }: { editor: Editor }) => {
         </div>
       </section>
 
-      <section className="flex flex-1 justify-between gap-1">
+      <section className="flex justify-between gap-1">
         <div
           onClick={() => editor.chain().focus().setTextAlign('left').run()}
           className={(editor.isActive({ textAlign: 'left' }) ? 'bg-secondary' : '') + ' p-2 rounded-sm cursor-pointer hover:opacity-80'} aria-label="Toggle align left"

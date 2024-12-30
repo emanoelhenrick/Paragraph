@@ -7,6 +7,7 @@ import { SectionSidebar } from "./components/section-sidebar";
 import { SectionTab } from "./components/section-tab";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "./components/ui/resizable";
 import { ChapterEditor } from "./components/editor/chapter-editor";
+import { ResizablePanels } from "./pages/project/ResizablePanels";
 
 
 export const router = createHashRouter(
@@ -15,16 +16,7 @@ export const router = createHashRouter(
       <Route path="/" Component={Home} />
       <Route path="/project/" element={
         <div className="flex">
-          <SectionSidebar />
-          <ResizablePanelGroup direction="horizontal">
-            <ResizablePanel className="min-w-52" defaultSize={25}>
-              <SectionTab />
-            </ResizablePanel>
-            <ResizableHandle />
-            <ResizablePanel className="min-w-96" defaultSize={75}>
-              <Outlet />
-            </ResizablePanel>
-          </ResizablePanelGroup>
+          <ResizablePanels />
         </div> 
         }
       >
@@ -36,6 +28,5 @@ export const router = createHashRouter(
         <Route path="/project/stats" Component={Notes} />
       </Route>
     </>
-
   )
   );

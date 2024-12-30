@@ -42,7 +42,7 @@ export function ChapterMenu({ editor }: { editor: Editor }) {
   const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null);
 
   return (
-    <div className="border-l flex flex-col justify-between">
+    <div className="flex flex-col justify-between">
       <div>
         <div className="p-4">
           <EditorMenuBar editor={editor} />
