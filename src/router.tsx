@@ -1,14 +1,8 @@
 import { createHashRouter, createRoutesFromElements, Outlet, Route } from "react-router-dom";
-import { Chapters } from "./pages/project/chapters";
 import Home from "./pages/home";
 import { Editor } from "./pages/project/editor";
-import { Characters } from "./pages/project/characters";
-import { SidebarProvider } from "./components/ui/sidebar";
-import { AppSidebar } from "./components/app-sidebar";
 import { Places } from "./pages/project/places";
 import { Notes } from "./pages/project/notes";
-import { CharacterPage } from "./pages/project/character";
-import { IconArrowLeft, IconBrandTabler, IconSettings, IconUserBolt } from "@tabler/icons-react";
 import { SectionSidebar } from "./components/section-sidebar";
 import { SectionTab } from "./components/section-tab";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "./components/ui/resizable";

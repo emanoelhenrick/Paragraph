@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, nativeImage } from 'electron'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import CoreControllers from './core/controllers'
@@ -28,9 +28,11 @@ let win: BrowserWindow | null
 
 if (started) app.quit();
 
+const appIcon = path.join(process.env.VITE_PUBLIC, 'icon.png')
+
 function createWindow() {
   win = new BrowserWindow({
-    icon: path.join(process.env.VITE_PUBLIC, 'icon.png'),
+    icon: appIcon,
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
       nodeIntegration: false,
@@ -79,5 +81,6 @@ app.on('activate', () => {
 app.whenReady().then(() => {
   CoreControllers()
   createWindow()
-  
 })
+
+

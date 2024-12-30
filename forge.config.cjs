@@ -1,10 +1,14 @@
+const path = require('path')
 const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
+
+process.env.APP_ROOT = path.join(__dirname, '..')
+const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
 
 module.exports = {
   packagerConfig: {
     asar: true,
-    icon: "/public/icon"
+    icon: path.join(RENDERER_DIST, 'icon.png')
   },
   rebuildConfig: {},
   makers: [
@@ -25,6 +29,7 @@ module.exports = {
       name: '@electron-forge/maker-rpm',
       config: {
         "name": "Paragraph",
+        "icon": path.join(RENDERER_DIST, 'icon.png')
       },
     }
   ],
