@@ -28,9 +28,12 @@ let win: BrowserWindow | null
 
 if (started) app.quit();
 
-const appIcon = path.join(process.env.VITE_PUBLIC, 'icon.png')
+
+const appIcon = nativeImage.createFromPath(path.join(process.env.VITE_PUBLIC, 'icon.png'))
 
 function createWindow() {
+  console.log(appIcon);
+  
   win = new BrowserWindow({
     icon: appIcon,
     webPreferences: {
@@ -44,6 +47,8 @@ function createWindow() {
 
   win.menuBarVisible = false
 
+  
+
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', (new Date).toLocaleString())
@@ -56,6 +61,7 @@ function createWindow() {
   }
 
   win.once('ready-to-show', () => {
+    win?.setIcon(appIcon)
     win?.maximize()
   })
 }

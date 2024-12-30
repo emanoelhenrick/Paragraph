@@ -8,7 +8,7 @@ const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
 module.exports = {
   packagerConfig: {
     asar: true,
-    icon: path.join(RENDERER_DIST, 'icon.png')
+    icon: "/home/manel/Documents/dev/Paragraph/public/icon.png"
   },
   rebuildConfig: {},
   makers: [
@@ -29,7 +29,7 @@ module.exports = {
       name: '@electron-forge/maker-rpm',
       config: {
         "name": "Paragraph",
-        "icon": path.join(RENDERER_DIST, 'icon.png')
+        "icon": "/home/manel/Documents/dev/Paragraph/public/icon.png"
       },
     }
   ],
