@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  font-family: Sora, Helvetica, sans-serif;
+  font-family: sora, Helvetica, sans-serif;
 }
 
 .tiptap p.is-editor-empty:first-child::before {
