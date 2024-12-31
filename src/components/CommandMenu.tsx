@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { InputHTMLAttributes, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./ui/command"
 import { useNavigate } from "react-router-dom"
 import { getAllChapters } from "@/fakeData/fake-chapters"
@@ -12,6 +12,12 @@ export function CommandMenu() {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  function handleHelper(cmd: string) {
+    setSearch(cmd)
+    inputRef!.current!.focus()
+  }
 
   const chapters = useMemo(() => {
     return getAllChapters()
@@ -60,16 +66,26 @@ export function CommandMenu() {
       
   }, [chapters])
 
-
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput value={search} onValueChange={setSearch} placeholder="Type a command..." />
+      <CommandInput ref={inputRef}  value={search} onValueChange={setSearch} placeholder="Type a command..." />
       <CommandList>
         <CommandEmpty>
           <div className="flex gap-4 justify-center items-center text-xs text-muted-foreground font-medium">
-            <span>Chapters: c/</span>
-            <span>Notes: n/</span>
-            <span>Scenes: s/</span>
+            <div onClick={() =>  handleHelper('c/ ')} className="flex gap-2 items-center bg-primary-foreground border py-0.5 pr-2.5 pl-0.5 rounded-lg hover:opacity-80 cursor-pointer">
+              <div className="bg-background border py-0.5 px-2 rounded-md text-primary">c/</div>
+              <span>chapters</span>
+            </div>
+
+            <div onClick={() => handleHelper('n/ ')} className="flex gap-2 items-center bg-primary-foreground border py-0.5 pr-2.5 pl-0.5 rounded-lg hover:opacity-80 cursor-pointer">
+              <div className="bg-background border py-0.5 px-2 rounded-md text-primary">n/</div>
+              <span>notes</span>
+            </div>
+
+            <div onClick={() => handleHelper('s/ ')} className="flex gap-2 items-center bg-primary-foreground border py-0.5 pr-2.5 pl-0.5 rounded-lg hover:opacity-80 cursor-pointer">
+              <div className="bg-background border py-0.5 px-2 rounded-md text-primary">s/</div>
+              <span>scenes</span>
+            </div>
           </div>
         </CommandEmpty>
 
