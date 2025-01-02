@@ -112,10 +112,6 @@ export function ChapterMenu({ editor }: { editor: Editor }) {
             </div>
           </TabsContent>
         </Tabs>
-
-
-
-        
       </div>
     </div>
   )

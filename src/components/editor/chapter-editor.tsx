@@ -3,17 +3,18 @@ import Placeholder from '@tiptap/extension-placeholder'
 import StarterKit from '@tiptap/starter-kit'
 import CharacterCount from '@tiptap/extension-character-count'
 import Typography from '@tiptap/extension-typography'
+import FontSize from 'tiptap-extension-font-size'
+import TextStyle from "@tiptap/extension-text-style";
 import TextAlign from '@tiptap/extension-text-align'
 import { Extension } from '@tiptap/core';
 import './styles.css'
 
 import { Fade } from "react-awesome-reveal";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { getChapter } from "@/fakeData/fake-chapters";
 import { ScrollArea } from "../ui/scroll-area";
 import { ChapterMenu } from "./chapter-menu";
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../ui/resizable";
 import { PanelRight } from "lucide-react";
 import { ImperativePanelHandle } from "react-resizable-panels";
 
@@ -57,6 +58,8 @@ export function ChapterEditor() {
       StarterKit,
       CharacterCount,
       LiteralTab,
+      TextStyle,
+      FontSize,
       Typography,
       TextAlign.configure({
         types: ['heading', 'paragraph'],
@@ -99,7 +102,7 @@ export function ChapterEditor() {
               <div className=" w-full max-w-screen-md m-auto h-screen" style={{fontFamily: 'sora'}}>
                 <Fade duration={300} triggerOnce>
                   <div className="flex gap-4">
-                    { chapterId && <EditorContent placeholder="teste" style={{ fontFamily: 'PT Serif, serif'}} className="border-none flex-1 mt-4 text-lg px-8 py-12 rounded-xl mb-20" editor={editor} />}
+                    { chapterId && <EditorContent placeholder="teste" style={{ fontFamily: 'PT Serif, serif' }} className="border-none flex-1 mt-4 px-8 py-12 rounded-xl mb-20" editor={editor} />}
                   </div>
                 </Fade>
       

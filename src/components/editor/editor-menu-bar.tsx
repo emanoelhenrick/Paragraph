@@ -1,12 +1,31 @@
 import { Editor } from "@tiptap/react";
 
 import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Heading1, Italic } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { useEffect, useState } from "react";
 
 export const EditorMenuBar = ({ editor }: { editor: Editor }) => {
+  const [fontSize, setFontSize] = useState('14')
+
+  const fontSizes = ['8', '9', '10', '11', '12', '14', '16', '18', '24', '30', '36', '48', '60', '72']
+
+  useEffect(() => {
+    editor.chain().focus().setFontSize(`${fontSize}pt`).run()
+  }, [fontSize])
 
   return (
     <div className="flex w-fit bg-background border gap-2 p-1 rounded-md">
-      <section className="flex justify-between gap-1">
+      <section className="flex justify-between items-center gap-1">
+        <div className="space-y-2">
+          <Select defaultValue="18" onValueChange={setFontSize}>
+            <SelectTrigger id="select-24" className="w-auto min-w-16 text-xs max-w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {fontSizes.map(s => <SelectItem className="text-xs" value={s}>{s}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </div>
         <div
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           className={(editor.isActive('heading') ? 'bg-secondary' : '') + ' p-2 rounded-sm cursor-pointer hover:opacity-80'} aria-label="Toggle heading"
@@ -25,9 +44,6 @@ export const EditorMenuBar = ({ editor }: { editor: Editor }) => {
           >
           <Italic className="h-4 w-4" />
         </div>
-      </section>
-
-      <section className="flex justify-between gap-1">
         <div
           onClick={() => editor.chain().focus().setTextAlign('left').run()}
           className={(editor.isActive({ textAlign: 'left' }) ? 'bg-secondary' : '') + ' p-2 rounded-sm cursor-pointer hover:opacity-80'} aria-label="Toggle align left"
