@@ -77,11 +77,20 @@ export function ChapterEditor() {
     return ref.current?.collapse 
   }, [isOpen])
 
+  function handleSidebar() {
+    if (isOpen) {
+      setIsOpen(false)
+      return ref.current?.collapse()
+    }
+    setIsOpen(true)
+    return ref.current?.expand()
+  }
+
   if (chapter) {
     return (
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel minSize={50} className="relative">
-          <PanelRight onClick={() => setIsOpen(prev => !prev)} className="size-5 absolute right-4 top-4 z-10 text-muted-foreground cursor-pointer hover:opacity-80" />
+          <PanelRight onClick={handleSidebar} className="size-5 absolute right-4 top-4 z-10 text-muted-foreground cursor-pointer hover:opacity-80" />
           <ScrollArea>
             <section className="w-full max-h-screen">
               <header className="p-4 flex items-center justify-between">

@@ -39,8 +39,8 @@ export function ChaptersSection() {
       <header ref={ref} className="text-muted-foreground uppercase items-center p-4 pb-2">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs font-medium">Chapters</span>
-          <div className="cursor-pointer hover:opacity-80 p-1">
-            <Plus size={16} strokeWidth={2} aria-hidden="true" className="size-4" />
+          <div className="cursor-pointer hover:opacity-80 p-1 text-xs flex gap-2 items-center">
+            <Plus className="size-4" />
           </div>
         </div>
         <Input value={search} onChange={e => setSearch(e.currentTarget.value)} placeholder="Search" className="text-sm" />
