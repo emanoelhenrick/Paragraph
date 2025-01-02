@@ -88,8 +88,8 @@ export function ChapterEditor() {
 
   if (chapter) {
     return (
-      <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel minSize={50} className="relative">
+      <section className="flex">
+        <div className="flex-1 relative">
           <PanelRight onClick={handleSidebar} className="size-5 absolute right-4 top-4 z-10 text-muted-foreground cursor-pointer hover:opacity-80" />
           <ScrollArea>
             <section className="w-full max-h-screen">
@@ -109,12 +109,12 @@ export function ChapterEditor() {
               </div>
             </section>
           </ScrollArea>
-        </ResizablePanel>
-        <ResizableHandle />
-        <ResizablePanel ref={ref} collapsible minSize={25} defaultSize={25}>
+        </div>
+
+        <div className={`${isOpen ? 'block' : 'hidden'} w-fit border-l`}>
           {editor && <ChapterMenu editor={editor} />}
-        </ResizablePanel>
-      </ResizablePanelGroup>
+        </div>
+      </section>
     );
   }
 
