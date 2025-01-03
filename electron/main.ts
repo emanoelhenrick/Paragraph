@@ -28,12 +28,9 @@ let win: BrowserWindow | null
 
 if (started) app.quit();
 
-
 const appIcon = nativeImage.createFromPath(path.join(process.env.VITE_PUBLIC, 'icon.png'))
 
 function createWindow() {
-  console.log(appIcon);
-  
   win = new BrowserWindow({
     icon: appIcon,
     webPreferences: {
@@ -46,8 +43,6 @@ function createWindow() {
   })
 
   win.menuBarVisible = false
-
-  
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {

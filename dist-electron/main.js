@@ -19682,7 +19682,6 @@ let win;
 if (started) app$1.quit();
 const appIcon = nativeImage.createFromPath(path$4.join(process.env.VITE_PUBLIC, "icon.png"));
 function createWindow() {
-  console.log(appIcon);
   win = new BrowserWindow({
     icon: appIcon,
     webPreferences: {

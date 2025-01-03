@@ -75,11 +75,6 @@ export function ChapterEditor() {
     setChapter(getChapter(chapterId))
   }, [chapterId])
 
-  useEffect(() => {
-    if (!isOpen) return ref.current?.expand
-    return ref.current?.collapse 
-  }, [isOpen])
-
   function handleSidebar() {
     if (isOpen) {
       setIsOpen(false)
@@ -102,7 +97,7 @@ export function ChapterEditor() {
               <div className=" w-full max-w-screen-md m-auto h-screen" style={{fontFamily: 'sora'}}>
                 <Fade duration={300} triggerOnce>
                   <div className="flex gap-4">
-                    { chapterId && <EditorContent placeholder="teste" style={{ fontFamily: 'PT Serif, serif' }} className="border-none flex-1 mt-4 px-8 py-12 rounded-xl mb-20" editor={editor} />}
+                    { chapterId && <EditorContent placeholder="teste" style={{ fontFamily: 'PT Serif, serif' }} className="border-none flex-1 mt-4 text-lg px-8 py-12 rounded-xl mb-20" editor={editor} />}
                   </div>
                 </Fade>
       

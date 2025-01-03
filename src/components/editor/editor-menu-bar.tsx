@@ -5,19 +5,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { useEffect, useState } from "react";
 
 export const EditorMenuBar = ({ editor }: { editor: Editor }) => {
-  const [fontSize, setFontSize] = useState('14')
+  const [fontSize, setFontSize] = useState('13')
 
-  const fontSizes = ['8', '9', '10', '11', '12', '14', '16', '18', '24', '30', '36', '48', '60', '72']
+  const fontSizes = ['8', '9', '10', '11', '12', '13', '14', '16', '18', '24']
 
   useEffect(() => {
-    editor.chain().focus().setFontSize(`${fontSize}pt`).run()
+    editor.chain().focus().setFontSize(`${fontSize}px`).run()
   }, [fontSize])
 
   return (
     <div className="flex w-fit bg-background border gap-2 p-1 rounded-md">
       <section className="flex justify-between items-center gap-1">
         <div className="space-y-2">
-          <Select defaultValue="18" onValueChange={setFontSize}>
+          <Select defaultValue="13" onValueChange={setFontSize}>
             <SelectTrigger id="select-24" className="w-auto min-w-16 text-xs max-w-full">
               <SelectValue />
             </SelectTrigger>
