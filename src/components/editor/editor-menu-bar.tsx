@@ -1,8 +1,10 @@
 import { Editor } from "@tiptap/react";
 
 import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Heading1, Italic } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { useEffect, useState } from "react";
+import { Minus, Plus } from "lucide-react";
+import { Button, Group, Input, Label, NumberField } from "react-aria-components";
+
 
 export const EditorMenuBar = ({ editor }: { editor: Editor }) => {
   const [fontSize, setFontSize] = useState('13')
@@ -16,16 +18,27 @@ export const EditorMenuBar = ({ editor }: { editor: Editor }) => {
   return (
     <div className="flex w-fit bg-background border gap-2 p-1 rounded-md">
       <section className="flex justify-between items-center gap-1">
-        <div className="space-y-2">
-          <Select defaultValue="13" onValueChange={setFontSize}>
-            <SelectTrigger id="select-24" className="w-auto min-w-16 text-xs max-w-full">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {fontSizes.map(s => <SelectItem className="text-xs" value={s}>{s}</SelectItem>)}
-            </SelectContent>
-          </Select>
-        </div>
+        {/* <div className="space-y-2">
+          <NumberField defaultValue={16} minValue={8} maxValue={72}>
+            <div className="space-y-2">
+              <Group className="relative inline-flex h-8 w-fit items-center overflow-hidden whitespace-nowrap rounded-lg border border-input text-sm shadow-sm shadow-black/5 transition-shadow data-[disabled]:opacity-50 ">
+                <Button
+                  slot="decrement"
+                  className="-ms-px flex aspect-square h-[inherit] items-center justify-center rounded-s-lg border border-input bg-background text-sm text-muted-foreground/80 transition-shadow hover:bg-accent hover:text-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <Minus size={16} strokeWidth={2} aria-hidden="true" />
+                </Button>
+                <Input className="w-12 bg-background px-3 py-2 text-xs text-center tabular-nums text-foreground focus:outline-none" />
+                <Button
+                  slot="increment"
+                  className="-me-px flex aspect-square h-[inherit] items-center justify-center rounded-e-lg border border-input bg-background text-sm text-muted-foreground/80 transition-shadow hover:bg-accent hover:text-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <Plus size={16} strokeWidth={2} aria-hidden="true" />
+                </Button>
+              </Group>
+            </div>
+          </NumberField>
+        </div> */}
         <div
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           className={(editor.isActive('heading') ? 'bg-secondary' : '') + ' p-2 rounded-sm cursor-pointer hover:opacity-80'} aria-label="Toggle heading"

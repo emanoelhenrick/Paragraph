@@ -21,32 +21,5 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 
   // You can expose other APTs you need here.
   // ...
-  getMetadata: () => ipcRenderer.invoke('get-metadata'),
-
-  updateVod: async (args: any) => await ipcRenderer.invoke('update-vod', args),
-  updateSeries: async (args: any) => await ipcRenderer.invoke('update-series', args),
-  updateLive: async (args: any) => await ipcRenderer.invoke('update-live', args),
-
-  authenticateUser: async (args: any) => await ipcRenderer.invoke('authenticate-user', args),
-
-  addPlaylistToMeta: async (args: any) => await ipcRenderer.invoke('add-playlist-to-meta', args),
-
-  getLocalVodPlaylist: async (args: any) => await ipcRenderer.invoke('get-local-vod-playlist', args),
-  getLocalSeriesPlaylist: async (args: any) => await ipcRenderer.invoke('get-local-series-playlist', args),
-  getLocalLivePlaylist: async (args: any) => await ipcRenderer.invoke('get-local-live-playlist', args),
-
-  getPlaylistInfo: async (args: any) => await ipcRenderer.invoke('get-playlist-info', args),
-  getVodInfo: async (args: any) => await ipcRenderer.invoke('get-vod-info', args),
-  getSerieInfo: async (args: any) => await ipcRenderer.invoke('get-serie-info', args),
-
-  getUserData: async (args: any) => await ipcRenderer.invoke('get-user-data', args),
-  updateUserData: async (args: any) => await ipcRenderer.invoke('update-user-data', args),
-
-  changeCurrentPlaylist: async (args: any) => await ipcRenderer.invoke('change-current-playlist', args),
-  updatedAtPlaylist: async (args: any) => await ipcRenderer.invoke('updated-at-playlist', args),
-
-  createProfile: async (args: any) => await ipcRenderer.invoke('create-profile', args),
-  switchProfile: async (args: any) => await ipcRenderer.invoke('switch-profile', args),
-  renameProfile: async (args: any) => await ipcRenderer.invoke('rename-profile', args),
-  removeProfile: async (args: any) => await ipcRenderer.invoke('remove-profile', args)
+  getMetadata: () => ipcRenderer.invoke('get-metadata')
 })
