@@ -1,8 +1,8 @@
 export interface Chapter {
-  id: number
+  id: string
   title: string
   position: number
-  content: string
-  resume: string
-  tags: string[]
+  content?: string
+  resume?: string
+  tags?: string[]
 }

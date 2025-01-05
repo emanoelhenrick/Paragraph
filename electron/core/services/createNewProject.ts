@@ -11,7 +11,6 @@ interface NewProjectProps {
 }
 
 export async function createNewProject({ name, deadline, wordsPerChapterLimit }: NewProjectProps) {
-
   const newProjectId = randomUUID()
 
   //ADD TO META
@@ -26,6 +25,5 @@ export async function createNewProject({ name, deadline, wordsPerChapterLimit }:
     id: newProjectId, name,
     stats: { deadline, wordsPerChapterLimit, days: [] }
   }
-  await writeAsync(projectInfoPath, projectInfo)
-
+  return await writeAsync(projectInfoPath, projectInfo)
 }
