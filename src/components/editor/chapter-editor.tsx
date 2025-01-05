@@ -109,7 +109,7 @@ export function ChapterEditor() {
           </ScrollArea>
         </div>
 
-        <div className={`${isOpen ? 'block' : 'hidden'} w-fit border-l`}>
+        <div className={`${isOpen ? 'block' : 'hidden'} max-w-72 border-l`}>
           {editor && <ChapterMenu editor={editor} />}
         </div>
       </section>
