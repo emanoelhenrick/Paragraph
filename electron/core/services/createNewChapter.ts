@@ -1,8 +1,6 @@
 import { randomUUID } from "crypto"
-import { getChapterPath, getProjectInfoPath, META_PATH } from "../localPaths"
-import { MetaProps } from "../models/Meta"
-import { readAsync, writeAsync } from "fs-jetpack"
-import { ProjectInfo } from "../models/ProjectInfo"
+import { getChapterPath } from "../localPaths"
+import { writeAsync } from "fs-jetpack"
 import { Chapter } from "../models/Chapter"
 
 interface NewChapterProps {
@@ -11,7 +9,7 @@ interface NewChapterProps {
   position: number
 }
 
-export async function createNewProject({ projectId, chapterTitle, position }: NewChapterProps) {
+export async function createNewChapter({ projectId, chapterTitle, position }: NewChapterProps) {
   const newChapterId = randomUUID()
 
   //CREATE THE CHAPTER JSON
