@@ -23,23 +23,24 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import services from "@/electron/electronApi"
+import { useNavigate } from "react-router-dom"
 // import { createProjectFile } from "electron/files/createProjectFile"
 
 const formSchema = z.object({
-  title: z.string().min(2).max(50),
-  description: z.string(),  
-  type: z.string().min(2).max(50)
+  title: z.string().min(2).max(50)
 })
 
-export function NewProjectDialog({ updateLocalProjects }: { updateLocalProjects: () => void }) {
+export function NewProjectDialog() {
+  const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // await createProjectFile(values)
-    // updateLocalProjects()
+    const projectId = await services.createNewProject({ name: values.title })
+    navigate(`/project/chapter/${projectId}`)
   }
 
   return (
@@ -53,54 +54,14 @@ export function NewProjectDialog({ updateLocalProjects }: { updateLocalProjects:
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="flex gap-4">
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Project title" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="type"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Type</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="w-fit">
-                            <SelectValue placeholder="Category" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="book">Book</SelectItem>
-                          <SelectItem value="script">Script</SelectItem>
-                          <SelectItem value="note">Note</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            
-
             <FormField
               control={form.control}
-              name="description"
+              name="title"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Write a description if you want" {...field} />
+                    <Input placeholder="Project title" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -1,6 +1,8 @@
+export interface ProjectMetaProps {
+  name: string
+  id: string
+}
+
 export interface MetaProps {
-  projects: {
-    name: string
-    id: string
-  }[]
+  projects: ProjectMetaProps[]
 }

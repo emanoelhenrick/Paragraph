@@ -6,7 +6,7 @@ interface DayStats {
 export interface ProjectInfo {
   name: string
   id: string
-  stats: {
+  stats?: {
     deadline: Date
     wordsPerChapterLimit: number
     days: DayStats[]

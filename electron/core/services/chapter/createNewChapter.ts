@@ -1,9 +1,9 @@
 import { randomUUID } from "crypto"
-import { getChapterPath } from "../localPaths"
+import { getChapterPath } from "../../localPaths"
 import { writeAsync } from "fs-jetpack"
-import { Chapter } from "../models/Chapter"
+import { Chapter } from "../../models/Chapter"
 
-interface NewChapterProps {
+export interface NewChapterProps {
   projectId: string
   chapterTitle: string
   position: number

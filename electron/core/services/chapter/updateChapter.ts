@@ -1,13 +1,13 @@
-import { getChapterPath } from "../localPaths"
+import { getChapterPath } from "../../localPaths"
 import { writeAsync } from "fs-jetpack"
-import { Chapter } from "../models/Chapter"
+import { Chapter } from "../../models/Chapter"
 
-interface UpdateProjectProps {
+export interface UpdateChapterProps {
   projectId: string
   chapterData: Chapter
 }
 
-export async function updateChapter({ projectId, chapterData }: UpdateProjectProps) {
+export async function updateChapter({ projectId, chapterData }: UpdateChapterProps) {
   //UPDATE THE CHAPTER JSON
   const chapterPath = getChapterPath(projectId, chapterData.id)
   return await writeAsync(chapterPath, chapterData)
