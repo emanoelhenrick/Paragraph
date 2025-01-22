@@ -3032,11 +3032,24 @@ const jetpackContext = (cwdPath) => {
 var jetpack$1 = jetpackContext;
 const jetpack = jetpack$1;
 var main = jetpack();
+async function getProjectInfo(id) {
+  const projectInfoPath = getProjectInfoPath(id);
+  const projectInfo = await main.readAsync(projectInfoPath, "json");
+  return projectInfo;
+}
+async function updateProjectInfo(data) {
+  const projectInfoPath = getProjectInfoPath(data.id);
+  await main.writeAsync(projectInfoPath, data);
+}
 async function createNewChapter({ projectId, chapterTitle, position }) {
   const newChapterId = randomUUID();
   const chapterPath = getChapterPath(projectId, newChapterId);
   const chapter = { id: newChapterId, title: chapterTitle, position };
-  return await main.writeAsync(chapterPath, chapter);
+  await main.writeAsync(chapterPath, chapter);
+  const projectInfo = await getProjectInfo(projectId);
+  projectInfo.chapters.push(chapter);
+  await updateProjectInfo(projectInfo);
+  return newChapterId;
 }
 async function createNewProject({ name }) {
   const newProjectId = randomUUID();
@@ -3046,7 +3059,7 @@ async function createNewProject({ name }) {
   metadata.projects.push(projectMeta);
   await main.writeAsync(META_PATH, metadata);
   const projectInfoPath = getProjectInfoPath(newProjectId);
-  const projectInfo = { id: newProjectId, name };
+  const projectInfo = { id: newProjectId, name, chapters: [], notes: [], scenes: [] };
   await main.writeAsync(projectInfoPath, projectInfo);
   return newProjectId;
 }
@@ -3059,10 +3072,16 @@ async function getAllProjects() {
   if (!metadata) return [];
   return metadata.projects;
 }
+async function getChapter({ projectId, chapterId }) {
+  const chapterPath = getChapterPath(projectId, chapterId);
+  return await main.readAsync(chapterPath, "json");
+}
 function CoreControllers() {
   ipcMain.handle("create-new-project", async (_event, args) => await createNewProject(args));
+  ipcMain.handle("get-project-info", async (_event, args) => await getProjectInfo(args));
   ipcMain.handle("get-all-projects", async (_event) => await getAllProjects());
   ipcMain.handle("create-new-chapter", async (_event, args) => await createNewChapter(args));
+  ipcMain.handle("get-chapter", async (_event, args) => await getChapter(args));
   ipcMain.handle("update-chapter", async (_event, args) => await updateChapter(args));
 }
 var src = { exports: {} };

@@ -1,11 +1,15 @@
+import { IdProps, ProjectInfo } from 'electron/core/models/ProjectInfo'
 import { create } from 'zustand'
 
 interface props {
-  currentProjectId: string
-  setCurrentProjectId: (id: string) => void
+  info: ProjectInfo
+  setInfo: (info: ProjectInfo) => void
 }
 
-export const useProject = create<props>((set) => ({
-  currentProjectId: '',
-  setCurrentProjectId: (id: string) => set(() => ({ currentProjectId: id }))
+export const useProjectInfo = create<props>((set) => ({
+  info: {
+    id: '',
+    name: ''
+  } as ProjectInfo,
+  setInfo: (data: ProjectInfo) => set(() => ({ info: data })),
 }))

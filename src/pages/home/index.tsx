@@ -49,7 +49,7 @@ export default function Home() {
         <div style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`, fontFamily: 'sora' }} className={`grid gap-4`}>
           {allProjects.map(p => <ProjectCard id={p.id} name={p.name} key={p.name} />)}
         </div>
-       : <p className="opacity-80">You don't have any project with this type</p>}
+       : <p className="opacity-80">You don't have any project</p>}
 
        <ModeToggle />
     </div>

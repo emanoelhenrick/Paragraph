@@ -22,7 +22,7 @@ export async function createNewProject({ name }: NewProjectProps) {
 
   //CREATE THE PROJECT INFO
   const projectInfoPath = getProjectInfoPath(newProjectId)
-  const projectInfo: ProjectInfo = { id: newProjectId, name }
+  const projectInfo: ProjectInfo = { id: newProjectId, name, chapters: [], notes: [], scenes: [] }
   await writeAsync(projectInfoPath, projectInfo)
 
   return newProjectId

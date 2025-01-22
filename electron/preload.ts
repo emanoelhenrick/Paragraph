@@ -22,8 +22,10 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
   // You can expose other APTs you need here.
   // ...
   createNewProject: (args: any) => ipcRenderer.invoke('create-new-project', args),
+  getProjectInfo: (args: any) => ipcRenderer.invoke('get-project-info', args),
   getAllProjects: () => ipcRenderer.invoke('get-all-projects'),
 
   createNewChapter: (args: any) => ipcRenderer.invoke('create-new-chapter', args),
+  getChapter: (args: any) => ipcRenderer.invoke('get-chapter', args),
   updateChapter: (args: any) => ipcRenderer.invoke('update-chapter', args),
 })

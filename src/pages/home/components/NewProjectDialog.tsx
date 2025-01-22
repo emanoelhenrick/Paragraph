@@ -24,7 +24,7 @@ import {
 import { Input } from "@/components/ui/input"
 import services from "@/electron/electronApi"
 import { useNavigate } from "react-router-dom"
-import { useProject } from "@/states/project-state"
+import { useProjectInfo } from "@/states/project-state"
 
 const formSchema = z.object({
   title: z.string().min(2).max(50)
@@ -32,7 +32,7 @@ const formSchema = z.object({
 
 export function NewProjectDialog() {
   const navigate = useNavigate()
-  const updateCurrentProjectId = useProject(state => state.setCurrentProjectId)
+  const updateProjectInfo = useProjectInfo(state => state.setInfo)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
@@ -40,7 +40,9 @@ export function NewProjectDialog() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const projectId = await services.createNewProject({ name: values.title })
-    updateCurrentProjectId(projectId)
+    const projectInfo = await services.getProjectInfo(projectId)
+    if (!projectInfo) return
+    updateProjectInfo(projectInfo)
     navigate(`/project/chapter/${projectId}`)
   }
 

@@ -1,15 +1,6 @@
-import { Badge } from "@/components/ui/badge"
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { useProject } from "@/states/project-state"
+import services from "@/electron/electronApi"
+import { useProjectInfo } from "@/states/project-state"
 import { useMeasure } from "@uidotdev/usehooks"
-import { formatDistance } from 'date-fns'
-import { Clock } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
 interface ProjectCardProps {
@@ -21,10 +12,12 @@ interface ProjectCardProps {
 export function ProjectCard({ name, updatedAt, id }: ProjectCardProps) {
   const [ref] = useMeasure();
   const navigate = useNavigate()
-  const updateCurrentProjectId = useProject(state => state.setCurrentProjectId)
+  const updateProjectInfo = useProjectInfo(state => state.setInfo)
 
-  function handleProjectPage() {
-    updateCurrentProjectId(id)
+  async function handleProjectPage() {
+    const projectInfo = await services.getProjectInfo(id)
+    if (!projectInfo) return
+    updateProjectInfo(projectInfo)
     navigate(`/project/chapter/${id}`)
   }
 

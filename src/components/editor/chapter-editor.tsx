@@ -1,4 +1,4 @@
-import { useEditor, EditorContent, Editor, BubbleMenu } from "@tiptap/react";
+import { useEditor, EditorContent } from "@tiptap/react";
 import Placeholder from '@tiptap/extension-placeholder'
 import StarterKit from '@tiptap/starter-kit'
 import CharacterCount from '@tiptap/extension-character-count'
@@ -12,13 +12,13 @@ import './styles.css'
 import { Fade } from "react-awesome-reveal";
 import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { getChapter } from "@/fakeData/fake-chapters";
 import { ScrollArea } from "../ui/scroll-area";
 import { ChapterMenu } from "./chapter-menu";
 import { PanelRight } from "lucide-react";
 import { ImperativePanelHandle } from "react-resizable-panels";
-
-
+import services from "@/electron/electronApi";
+import { useProjectInfo } from "@/states/project-state";
+import { Chapter } from "electron/core/models/Chapter";
 
 const wordLimit = 1000
 
@@ -33,21 +33,16 @@ const LiteralTab = Extension.create({
   }
 })
 
-interface ChapterProps {
-  id: string
-  resume: string
-  title: string
-}
-
 export function ChapterEditor() {
   const params = useParams()
   const chapterId = params.id
-  const [chapter, setChapter] = useState<ChapterProps>()
+  const [chapter, setChapter] = useState<Chapter>()
+  const projectId = useProjectInfo(state => state.info.id)
   const ref = useRef<ImperativePanelHandle>(null)
   const [isOpen, setIsOpen] = useState(true)
 
   const editor = useEditor({
-    content: chapter ? chapter.resume : '',
+    content: 'teste',
     editorProps: {
       attributes: {
         class: 'border-none max-w-screen-md outline-none min-h-screen h-fit',
@@ -70,9 +65,14 @@ export function ChapterEditor() {
     ],
   }, [chapter]);
 
+  async function getLocalChapter(id: string) {
+    const chapter = await services.getChapter({ projectId, chapterId: id })
+    setChapter(chapter)
+  }
+
   useEffect(() => {
     if (!chapterId) return
-    setChapter(getChapter(chapterId))
+    getLocalChapter(chapterId)
   }, [chapterId])
 
   function handleSidebar() {

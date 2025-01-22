@@ -3,37 +3,42 @@ import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTr
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import { Chapter } from "electron/core/models/Chapter";
-import { useProject } from "@/states/project-state";
+import { useProjectInfo } from "@/states/project-state";
+import services from "@/electron/electronApi";
 
 export function NewChapterDialog() {
 
-  const currentProjectId = useProject(state => state.currentProjectId)
+  const projectInfo = useProjectInfo(state => state.info)
+  const setProjectInfo = useProjectInfo(state => state.setInfo)
   const [chapterTitle, setChapterTitle] = useState('')
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const newChapterProps = {
-      projectId: currentProjectId,
+      projectId: projectInfo!.id,
       chapterTitle,
-      position: 1
+      position: projectInfo!.chapters ? projectInfo!.chapters.length : 1
     }
+
+    const newChapterId = await services.createNewChapter(newChapterProps)
+    const newChapter = { id: newChapterId, title: chapterTitle }
+    const newChapters = [ ...projectInfo.chapters, newChapter]
+    projectInfo.chapters = newChapters
+    setProjectInfo({ ...projectInfo })
   }
 
   return (
     <Dialog>
       <DialogTrigger>
-        <PlusIcon width={20} height={20} />
+        <PlusIcon className="size-5" />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>New Chapter</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit}>
-          <Input onChange={e => setChapterTitle(e.currentTarget.value)} placeholder="Chapter Title" />
-          <DialogClose asChild>
-            <Button type="submit" className="w-full mt-2">Create</Button>
-          </DialogClose>
-        </form>
+        <Input onChange={e => setChapterTitle(e.currentTarget.value)} placeholder="Chapter Title" />
+        <DialogClose asChild>
+          <Button onClick={handleSubmit} className="w-full mt-2">Create</Button>
+        </DialogClose>
       </DialogContent>
     </Dialog>
   )

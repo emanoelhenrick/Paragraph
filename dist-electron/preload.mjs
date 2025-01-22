@@ -20,7 +20,9 @@ electron.contextBridge.exposeInMainWorld("ipcRenderer", {
   // You can expose other APTs you need here.
   // ...
   createNewProject: (args) => electron.ipcRenderer.invoke("create-new-project", args),
+  getProjectInfo: (args) => electron.ipcRenderer.invoke("get-project-info", args),
   getAllProjects: () => electron.ipcRenderer.invoke("get-all-projects"),
   createNewChapter: (args) => electron.ipcRenderer.invoke("create-new-chapter", args),
+  getChapter: (args) => electron.ipcRenderer.invoke("get-chapter", args),
   updateChapter: (args) => electron.ipcRenderer.invoke("update-chapter", args)
 });
