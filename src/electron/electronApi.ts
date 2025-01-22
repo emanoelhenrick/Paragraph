@@ -4,7 +4,7 @@ import { UpdateChapterProps } from "electron/core/services/chapter/updateChapter
 import { ProjectMetaProps } from "electron/core/models/Meta"
 
 export interface ElectronAPI {
-  createNewProject: (data: NewProjectProps) => Promise<void>
+  createNewProject: (data: NewProjectProps) => Promise<string>
   getAllProjects: () => Promise<ProjectMetaProps[]>
 
   createNewChapter: (data: NewChapterProps) => Promise<void>

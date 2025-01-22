@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { useProject } from "@/states/project-state"
 import { useMeasure } from "@uidotdev/usehooks"
 import { formatDistance } from 'date-fns'
 import { Clock } from "lucide-react"
@@ -18,10 +19,12 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ name, updatedAt, id }: ProjectCardProps) {
-  const [ref, { width }] = useMeasure();
+  const [ref] = useMeasure();
   const navigate = useNavigate()
+  const updateCurrentProjectId = useProject(state => state.setCurrentProjectId)
 
   function handleProjectPage() {
+    updateCurrentProjectId(id)
     navigate(`/project/chapter/${id}`)
   }
 

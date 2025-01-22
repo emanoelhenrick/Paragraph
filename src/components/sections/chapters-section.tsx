@@ -1,4 +1,3 @@
-import { Plus } from "lucide-react"
 import { Input } from "../ui/input"
 import { ScrollArea } from "../ui/scroll-area"
 import { useMemo, useState } from "react";
@@ -7,6 +6,7 @@ import Fuse from "fuse.js";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAllChapters } from "@/fakeData/fake-chapters";
 import { Fade } from "react-awesome-reveal";
+import { NewChapterDialog } from "../NewChapterDialog";
 
 
 export function ChaptersSection() {
@@ -40,7 +40,7 @@ export function ChaptersSection() {
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs font-medium">Chapters</span>
           <div className="cursor-pointer hover:opacity-80 p-1 text-xs flex gap-2 items-center">
-            <Plus className="size-4" />
+            <NewChapterDialog />
           </div>
         </div>
         <Input value={search} onChange={e => setSearch(e.currentTarget.value)} placeholder="Search" className="text-sm" />
