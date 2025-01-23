@@ -6,7 +6,7 @@ import Typography from '@tiptap/extension-typography'
 import FontSize from 'tiptap-extension-font-size'
 import TextStyle from "@tiptap/extension-text-style";
 import TextAlign from '@tiptap/extension-text-align'
-import { Extension } from '@tiptap/core';
+import { Extension, JSONContent } from '@tiptap/core';
 import './styles.css'
 
 import { Fade } from "react-awesome-reveal";
@@ -19,6 +19,7 @@ import { ImperativePanelHandle } from "react-resizable-panels";
 import services from "@/electron/electronApi";
 import { useProjectInfo } from "@/states/project-state";
 import { Chapter } from "electron/core/models/Chapter";
+import { useDebounce } from "@uidotdev/usehooks";
 
 const wordLimit = 1000
 
@@ -41,8 +42,15 @@ export function ChapterEditor() {
   const ref = useRef<ImperativePanelHandle>(null)
   const [isOpen, setIsOpen] = useState(true)
 
+  async function saveContent(content: JSONContent) {
+    if (!chapter) return
+    const updatedChapter: Chapter = { ...chapter, content }
+    await services.updateChapter({ projectId, chapterData: updatedChapter })
+  }
+
   const editor = useEditor({
-    content: 'teste',
+    content: chapter?.content,
+    onUpdate: async () => await saveContent(editor!.getJSON()),
     editorProps: {
       attributes: {
         class: 'border-none max-w-screen-md outline-none min-h-screen h-fit',
@@ -97,7 +105,14 @@ export function ChapterEditor() {
               <div className=" w-full max-w-screen-md m-auto h-screen" style={{fontFamily: 'sora'}}>
                 <Fade duration={300} triggerOnce>
                   <div className="flex gap-4">
-                    { chapterId && <EditorContent placeholder="teste" style={{ fontFamily: 'PT Serif, serif' }} className="border-none flex-1 mt-4 text-lg px-8 py-12 rounded-xl mb-20" editor={editor} />}
+                    { chapterId && 
+                      <EditorContent
+                        placeholder="teste"
+                        style={{ fontFamily: 'PT Serif, serif' }}
+                        className="border-none flex-1 mt-4 text-lg px-8 py-12 rounded-xl mb-20"
+                        editor={editor}
+                        
+                      />}
                   </div>
                 </Fade>
       

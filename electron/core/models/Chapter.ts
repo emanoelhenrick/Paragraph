@@ -2,7 +2,7 @@ export interface Chapter {
   id: string
   title: string
   position: number
-  content?: string
+  content?: any
   resume?: string
   tags?: string[]
 }
