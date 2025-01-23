@@ -36,7 +36,7 @@ export function ChaptersSection() {
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs font-medium">Chapters</span>
           <div className="cursor-pointer hover:opacity-80 p-1 text-xs flex gap-2 items-center">
-            <NewChapterDialog />
+            <NewChapterDialog handleEditor={handleEditor} />
           </div>
         </div>
         <Input value={search} onChange={e => setSearch(e.currentTarget.value)} placeholder="Search" className="text-sm" />
@@ -49,7 +49,7 @@ export function ChaptersSection() {
             {chaps && chaps.length > 0 ? (
               chaps.map((item, index) => {
                 return (
-                  <button key={item.id} onClick={() => handleEditor(item.id)} className={"text-left outline-none focus-visible:outline-primary flex flex-col gap-1 p-4 border rounded-xl cursor-pointer hover:opacity-80 " + (location.pathname.includes(item.id) && ' bg-primary-foreground')}>
+                  <button key={item.id} onClick={() => handleEditor(item.id)} className={"text-left outline-none focus-visible:outline-primary flex flex-col gap-1 p-4 w-full border rounded-xl cursor-pointer hover:opacity-80 " + (location.pathname.includes(item.id) && ' bg-primary-foreground')}>
                     <span className="text-xs text-muted-foreground font-bold uppercase">Chapter #{index + 1}</span>
                     <span className="text-lg font-bold">{item.title}</span>
                     {/* <span className="text-sm text-muted-foreground line-clamp-4">{item.resume}</span> */}

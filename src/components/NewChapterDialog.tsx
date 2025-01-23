@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useProjectInfo } from "@/states/project-state";
 import services from "@/electron/electronApi";
 
-export function NewChapterDialog() {
+export function NewChapterDialog({ handleEditor }: { handleEditor: (id: string) => void }) {
 
   const projectInfo = useProjectInfo(state => state.info)
   const setProjectInfo = useProjectInfo(state => state.setInfo)
@@ -24,6 +24,7 @@ export function NewChapterDialog() {
     const newChapters = [ ...projectInfo.chapters, newChapter]
     projectInfo.chapters = newChapters
     setProjectInfo({ ...projectInfo })
+    handleEditor(newChapterId)
   }
 
   return (
