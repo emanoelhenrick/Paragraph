@@ -20,7 +20,7 @@ export function NewChapterDialog({ handleEditor }: { handleEditor: (id: string) 
     }
 
     const newChapterId = await services.createNewChapter(newChapterProps)
-    const newChapter = { id: newChapterId, title: chapterTitle }
+    const newChapter = { id: newChapterId, title: chapterTitle, position: newChapterProps.position }
     const newChapters = [ ...projectInfo.chapters, newChapter]
     projectInfo.chapters = newChapters
     setProjectInfo({ ...projectInfo })

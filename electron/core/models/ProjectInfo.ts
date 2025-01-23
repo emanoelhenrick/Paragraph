@@ -9,10 +9,14 @@ export interface IdProps {
   folder?: IdProps
 }
 
+export interface ChapterIdProps extends IdProps {
+  position: number
+}
+
 export interface ProjectInfo {
   name: string
   id: string
-  chapters: IdProps[]
+  chapters: ChapterIdProps[]
   notes: IdProps[]
   scenes: IdProps[]
   stats?: {

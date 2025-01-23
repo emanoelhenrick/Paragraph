@@ -1,13 +1,10 @@
-import { InputHTMLAttributes, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./ui/command"
 import { useNavigate } from "react-router-dom"
 import { getAllChapters } from "@/fakeData/fake-chapters"
 import Fuse from "fuse.js"
-import { useCommandState } from "cmdk"
-import { AlignLeft, Library } from "lucide-react"
-import { IconAlignBoxLeftTopFilled, IconPencil, IconSettings } from "@tabler/icons-react"
-import { Badge } from "./ui/badge"
-
+import { AlignLeft } from "lucide-react"
+import { useProjectInfo } from "@/states/project-state"
 export function CommandMenu() {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
@@ -19,9 +16,7 @@ export function CommandMenu() {
     inputRef!.current!.focus()
   }
 
-  const chapters = useMemo(() => {
-    return getAllChapters()
-  }, [])
+  const chapters = useProjectInfo(state => state.info.chapters)
 
   const chaps = useMemo(() => {
 
@@ -58,7 +53,7 @@ export function CommandMenu() {
           <AlignLeft className="text-primary" />
         </div>
         <div className="flex flex-col">
-          <span className="text-xs text-muted-foreground font-medium">Chapter #{index + 1}</span>
+          <span className="text-xs text-muted-foreground font-medium">Chapter #{chap.position + 1}</span>
           <span className="text-base">{chap.title}</span>
         </div>
       </CommandItem>
