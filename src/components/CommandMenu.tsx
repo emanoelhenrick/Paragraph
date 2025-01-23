@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./ui/command"
 import { useNavigate } from "react-router-dom"
-import { getAllChapters } from "@/fakeData/fake-chapters"
 import Fuse from "fuse.js"
 import { AlignLeft } from "lucide-react"
 import { useProjectInfo } from "@/states/project-state"
@@ -19,7 +18,6 @@ export function CommandMenu() {
   const chapters = useProjectInfo(state => state.info.chapters)
 
   const chaps = useMemo(() => {
-
     const searchText = search.replace('c/', '').trim()
     const fuse = new Fuse(chapters, {
       keys: ['title'],
@@ -36,6 +34,10 @@ export function CommandMenu() {
   }
 
   useEffect(() => {
+    if (!open) setSearch('')
+  }, [open])
+
+  useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
@@ -43,10 +45,12 @@ export function CommandMenu() {
       }
     }
     document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
+    return () => {
+      document.removeEventListener("keydown", down)
+    }
   }, [])
 
-  const ChapterItem = useCallback((chap: any, index: number) => {
+  const ChapterItem = useCallback((chap: any) => {
     return (
       <CommandItem key={chap.id} onSelect={() => handlePage(`/project/chapter/${chap.id}`)}>
         <div className="relative p-2 rounded-md bg-background  border opacity-80 flex justify-center items-center">
@@ -86,7 +90,7 @@ export function CommandMenu() {
 
         {search.startsWith("c/") && (
           <CommandGroup className="py-2">
-            {chaps.map((chap, index) => ChapterItem(chap, index))}
+            {chaps.map((chap) => ChapterItem(chap))}
           </CommandGroup>
         )}
       </CommandList>

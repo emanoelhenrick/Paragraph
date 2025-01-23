@@ -29,8 +29,8 @@ export function NewChapterDialog({ handleEditor }: { handleEditor: (id: string) 
 
   return (
     <Dialog>
-      <DialogTrigger>
-        <PlusIcon className="size-5" />
+      <DialogTrigger className="border p-1 rounded-lg">
+        <PlusIcon className="size-4" />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

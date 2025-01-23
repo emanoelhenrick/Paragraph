@@ -19,7 +19,6 @@ import { ImperativePanelHandle } from "react-resizable-panels";
 import services from "@/electron/electronApi";
 import { useProjectInfo } from "@/states/project-state";
 import { Chapter } from "electron/core/models/Chapter";
-import { useDebounce } from "@uidotdev/usehooks";
 
 const wordLimit = 1000
 

@@ -47,12 +47,11 @@ export function ChaptersSection() {
           <div className="flex flex-col p-4 gap-4">
             <Fade triggerOnce duration={300}>
             {chaps && chaps.length > 0 ? (
-              chaps.map((item, index) => {
+              chaps.map((item) => {
                 return (
                   <button key={item.id} onClick={() => handleEditor(item.id)} className={"text-left outline-none focus-visible:outline-primary flex flex-col gap-1 p-4 w-full border rounded-xl cursor-pointer hover:opacity-80 " + (location.pathname.includes(item.id) && ' bg-primary-foreground')}>
                     <span className="text-xs text-muted-foreground font-bold uppercase">Chapter #{item.position + 1}</span>
-                    <span className="text-lg font-bold">{item.title}</span>
-                    {/* <span className="text-sm text-muted-foreground line-clamp-4">{item.resume}</span> */}
+                    { item.title && <span className="text-lg font-bold">{item.title}</span>}
                   </button>
                 )
               })
