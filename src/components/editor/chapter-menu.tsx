@@ -7,21 +7,6 @@ import { useState } from "react";
 import { Separator } from "../ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
-const tags = [
-  {
-    id: "1",
-    text: "Sport",
-  },
-  {
-    id: "2",
-    text: "Coding",
-  },
-  {
-    id: "3",
-    text: "Travel",
-  },
-];
-
 const fakeVersions = [
   {
     name: 'v0.1',
@@ -37,8 +22,7 @@ const fakeVersions = [
   }
 ]
 
-export function ChapterMenu({ editor }: { editor: Editor }) {
-  const [exampleTags, setExampleTags] = useState<Tag[]>(tags);
+export function ChapterMenu({ editor, tags = [], setTags }: { editor: Editor, tags?: Tag[], setTags: (data: any) => void }) {
   const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null);
 
   return (
@@ -85,19 +69,19 @@ export function ChapterMenu({ editor }: { editor: Editor }) {
               <div className="space-y-2">
                 <TagInput
                   id="input-56"
-                  tags={exampleTags}
+                  tags={tags}
                   setTags={(newTags) => {
-                    setExampleTags(newTags);
+                    setTags(newTags);
                   }}
                   placeholder="Add a tag"
                   styleClasses={{
                     tagList: {
-                      container: "gap-1",
+                      container: "gap-1 flex flex-wrap",
                     },
                     input:
                       "rounded-lg transition-shadow placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/20",
                     tag: {
-                      body: "relative h-7 bg-background border border-input hover:bg-background rounded-md font-medium text-xs ps-2 pe-7",
+                      body: "relative h-7 overflow-hidden bg-background border border-input hover:bg-background rounded-md font-medium text-xs ps-2 pe-7",
                       closeButton:
                         "absolute -inset-y-px -end-px p-0 rounded-s-none rounded-e-lg flex size-7 transition-colors outline-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70 text-muted-foreground/80 hover:text-foreground",
                     },

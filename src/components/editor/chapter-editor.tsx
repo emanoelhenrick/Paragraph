@@ -6,7 +6,7 @@ import Typography from '@tiptap/extension-typography'
 import FontSize from 'tiptap-extension-font-size'
 import TextStyle from "@tiptap/extension-text-style";
 import TextAlign from '@tiptap/extension-text-align'
-import { Extension, JSONContent } from '@tiptap/core';
+import { Extension } from '@tiptap/core';
 import './styles.css'
 
 import { Fade } from "react-awesome-reveal";
@@ -19,6 +19,7 @@ import { ImperativePanelHandle } from "react-resizable-panels";
 import services from "@/electron/electronApi";
 import { useProjectInfo } from "@/states/project-state";
 import { Chapter } from "electron/core/models/Chapter";
+import { Tag } from "emblor";
 
 const wordLimit = 1000
 
@@ -37,19 +38,20 @@ export function ChapterEditor() {
   const params = useParams()
   const chapterId = params.id
   const [chapter, setChapter] = useState<Chapter>()
+  const [tags, setTags] = useState<Tag[]>();
   const projectId = useProjectInfo(state => state.info.id)
   const ref = useRef<ImperativePanelHandle>(null)
   const [isOpen, setIsOpen] = useState(true)
 
-  async function saveContent(content: JSONContent) {
+  async function saveContent() {
     if (!chapter) return
-    const updatedChapter: Chapter = { ...chapter, content }
+    const updatedChapter: Chapter = { ...chapter, content: editor!.getJSON(), tags }
     await services.updateChapter({ projectId, chapterData: updatedChapter })
   }
 
   const editor = useEditor({
     content: chapter?.content,
-    onUpdate: async () => await saveContent(editor!.getJSON()),
+    onUpdate: async () => await saveContent(),
     editorProps: {
       attributes: {
         class: 'border-none max-w-screen-md outline-none min-h-screen h-fit',
@@ -75,7 +77,13 @@ export function ChapterEditor() {
   async function getLocalChapter(id: string) {
     const chapter = await services.getChapter({ projectId, chapterId: id })
     setChapter(chapter)
+    setTags(chapter.tags)
   }
+
+  useEffect(() => {
+    if (!chapterId || !tags) return
+    services.updateTags({ projectId, chapterId, tags })
+  }, [tags])
 
   useEffect(() => {
     if (!chapterId) return
@@ -124,7 +132,7 @@ export function ChapterEditor() {
         </div>
 
         <div className={`${isOpen ? 'block' : 'hidden'} max-w-72 border-l`}>
-          {editor && <ChapterMenu editor={editor} />}
+          {editor && <ChapterMenu editor={editor} tags={tags} setTags={setTags} />}
         </div>
       </section>
     );

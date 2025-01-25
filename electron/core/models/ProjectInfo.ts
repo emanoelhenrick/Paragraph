@@ -1,3 +1,5 @@
+import { Tag } from "emblor"
+
 interface DayStats {
   date: Date
   wordsWritten: number
@@ -11,6 +13,7 @@ export interface IdProps {
 
 export interface ChapterIdProps extends IdProps {
   position: number
+  tags?: Tag[]
 }
 
 export interface ProjectInfo {

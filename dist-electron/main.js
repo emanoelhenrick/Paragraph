@@ -3044,7 +3044,7 @@ async function updateProjectInfo(data) {
 async function createNewChapter({ projectId, chapterTitle, position }) {
   const newChapterId = randomUUID();
   const chapterPath = getChapterPath(projectId, newChapterId);
-  const chapter = { id: newChapterId, title: chapterTitle, position };
+  const chapter = { id: newChapterId, title: chapterTitle, position, tags: [] };
   await main.writeAsync(chapterPath, chapter);
   const projectInfo = await getProjectInfo(projectId);
   projectInfo.chapters.push(chapter);
@@ -3065,7 +3065,21 @@ async function createNewProject({ name }) {
 }
 async function updateChapter({ projectId, chapterData }) {
   const chapterPath = getChapterPath(projectId, chapterData.id);
-  return await main.writeAsync(chapterPath, chapterData);
+  await main.writeAsync(chapterPath, chapterData);
+  const projectInfo = await getProjectInfo(projectId);
+  const updated = projectInfo.chapters.map((chap) => {
+    if (chap.id === chapterData.id) {
+      return {
+        ...chap,
+        title: chapterData.title,
+        position: chapterData.position,
+        tags: chapterData.tags ? chapterData.tags : []
+      };
+    }
+    return chap;
+  });
+  projectInfo.chapters = updated;
+  await updateProjectInfo(projectInfo);
 }
 async function getAllProjects() {
   const metadata = await main.readAsync(META_PATH, "json");
@@ -3076,6 +3090,11 @@ async function getChapter({ projectId, chapterId }) {
   const chapterPath = getChapterPath(projectId, chapterId);
   return await main.readAsync(chapterPath, "json");
 }
+async function updateTags({ projectId, chapterId, tags }) {
+  const chapter = await getChapter({ projectId, chapterId });
+  const updated = { ...chapter, tags };
+  await updateChapter({ projectId, chapterData: updated });
+}
 function CoreControllers() {
   ipcMain.handle("create-new-project", async (_event, args) => await createNewProject(args));
   ipcMain.handle("get-project-info", async (_event, args) => await getProjectInfo(args));
@@ -3083,6 +3102,7 @@ function CoreControllers() {
   ipcMain.handle("create-new-chapter", async (_event, args) => await createNewChapter(args));
   ipcMain.handle("get-chapter", async (_event, args) => await getChapter(args));
   ipcMain.handle("update-chapter", async (_event, args) => await updateChapter(args));
+  ipcMain.handle("update-tags", async (_event, args) => await updateTags(args));
 }
 var src = { exports: {} };
 var browser = { exports: {} };

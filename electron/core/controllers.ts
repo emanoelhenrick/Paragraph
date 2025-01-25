@@ -5,6 +5,7 @@ import { updateChapter } from "./services/chapter/updateChapter";
 import { getAllProjects } from "./services/project/getAllProjects";
 import { getProjectInfo } from "./services/project/getProjectInfo";
 import { getChapter } from "./services/chapter/getChapter";
+import { updateTags } from "./services/chapter/updateTags";
 export default function CoreControllers() {
   //PROJECT
   ipcMain.handle('create-new-project', async (_event, args) => await createNewProject(args))
@@ -15,4 +16,5 @@ export default function CoreControllers() {
   ipcMain.handle('create-new-chapter', async (_event, args) => await createNewChapter(args))
   ipcMain.handle('get-chapter', async (_event, args) => await getChapter(args))
   ipcMain.handle('update-chapter', async (_event, args) => await updateChapter(args))
+  ipcMain.handle('update-tags', async (_event, args) => await updateTags(args))
 }

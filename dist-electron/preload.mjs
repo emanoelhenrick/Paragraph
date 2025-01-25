@@ -24,5 +24,6 @@ electron.contextBridge.exposeInMainWorld("ipcRenderer", {
   getAllProjects: () => electron.ipcRenderer.invoke("get-all-projects"),
   createNewChapter: (args) => electron.ipcRenderer.invoke("create-new-chapter", args),
   getChapter: (args) => electron.ipcRenderer.invoke("get-chapter", args),
-  updateChapter: (args) => electron.ipcRenderer.invoke("update-chapter", args)
+  updateChapter: (args) => electron.ipcRenderer.invoke("update-chapter", args),
+  updateTags: (args) => electron.ipcRenderer.invoke("update-tags", args)
 });

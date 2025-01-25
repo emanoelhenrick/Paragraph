@@ -28,4 +28,5 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
   createNewChapter: (args: any) => ipcRenderer.invoke('create-new-chapter', args),
   getChapter: (args: any) => ipcRenderer.invoke('get-chapter', args),
   updateChapter: (args: any) => ipcRenderer.invoke('update-chapter', args),
+  updateTags: (args: any) => ipcRenderer.invoke('update-tags', args),
 })

@@ -1,3 +1,4 @@
+import { Chapter } from "electron/core/models/Chapter"
 import { getChapterPath } from "../../localPaths"
 import { readAsync } from "fs-jetpack"
 
@@ -8,5 +9,5 @@ export interface GetChapterProps {
 
 export async function getChapter({ projectId, chapterId }: GetChapterProps) {
   const chapterPath = getChapterPath(projectId, chapterId)
-  return await readAsync(chapterPath, 'json')
+  return await readAsync(chapterPath, 'json') as Chapter
 }

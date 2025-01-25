@@ -16,7 +16,7 @@ export async function createNewChapter({ projectId, chapterTitle, position }: Ne
 
   //CREATE THE CHAPTER JSON
   const chapterPath = getChapterPath(projectId, newChapterId)
-  const chapter: Chapter = { id: newChapterId, title: chapterTitle, position }
+  const chapter: Chapter = { id: newChapterId, title: chapterTitle, position, tags: [] }
   await writeAsync(chapterPath, chapter)
 
   //UPDATE PROJECT INFO
