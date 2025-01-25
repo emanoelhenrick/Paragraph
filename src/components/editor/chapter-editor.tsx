@@ -6,7 +6,6 @@ import Typography from '@tiptap/extension-typography'
 import FontSize from 'tiptap-extension-font-size'
 import TextStyle from "@tiptap/extension-text-style";
 import TextAlign from '@tiptap/extension-text-align'
-import { Extension } from '@tiptap/core';
 import './styles.css'
 
 import { Fade } from "react-awesome-reveal";
@@ -20,19 +19,9 @@ import services from "@/electron/electronApi";
 import { useProjectInfo } from "@/states/project-state";
 import { Chapter } from "electron/core/models/Chapter";
 import { Tag } from "emblor";
+import { LiteralTab } from "./Extensions";
 
 const wordLimit = 1000
-
-const LiteralTab = Extension.create({
-  name: 'literalTab',
-  addKeyboardShortcuts() {
-    return {
-      Tab: () => {
-        return this.editor.commands.insertContent('\t')
-      }
-    }
-  }
-})
 
 export function ChapterEditor() {
   const params = useParams()
@@ -118,7 +107,6 @@ export function ChapterEditor() {
                         style={{ fontFamily: 'PT Serif, serif' }}
                         className="border-none flex-1 mt-4 text-lg px-8 py-12 rounded-xl mb-20"
                         editor={editor}
-                        
                       />}
                   </div>
                 </Fade>
